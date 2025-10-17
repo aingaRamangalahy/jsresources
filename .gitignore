@@ -1,0 +1,27 @@
+# Nuxt
+.nuxt
+.output
+.env
+dist
+
+# Node
+node_modules
+*.log*
+.DS_Store
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
+
+# Nuxt generate
+.output
+
+# Local
+.env.local
+
