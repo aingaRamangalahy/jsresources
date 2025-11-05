@@ -1,7 +1,7 @@
 ---
 title: "Node.js Design Patterns"
 author: "Mario Casciaro"
-platform: "Blog"
+platform: "Book"
 type: "article"
 topics: ["node", "javascript"]
 level: "advanced"

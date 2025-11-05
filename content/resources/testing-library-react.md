@@ -1,14 +1,14 @@
 ---
-title: "React Testing Library - Complete Course"
+title: "Testing JavaScript - Complete Course"
 author: "Kent C. Dodds"
-platform: "Testing Library"
+platform: "Testing JavaScript"
 type: "course"
 topics: ["react", "testing", "javascript"]
 level: "intermediate"
 language: "en"
-price: "free"
+price: "paid"
 url: "https://testingjavascript.com/"
 ---
 
-Learn how to write maintainable tests for React applications using Testing Library. Covers unit tests, integration tests, and best practices for confident refactoring.
+Learn how to write maintainable tests for JavaScript applications including React. Covers unit tests, integration tests, and best practices for confident refactoring. Comprehensive testing course covering Testing Library and other testing tools.
 
