@@ -141,7 +141,7 @@ The development server supports hot module replacement (HMR). Changes to:
 2. Add frontmatter with required fields
 3. The resource will automatically appear on the site
 
-See [HOW_TO_CONTRIBUTE.md](HOW_TO_CONTRIBUTE.md) for details.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 ### Theme Toggle
 
@@ -170,8 +170,7 @@ jsresources/
 
 ## Need Help?
 
-- Check [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines
-- Check [HOW_TO_CONTRIBUTE.md](HOW_TO_CONTRIBUTE.md) for adding resources
+- Check [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines and adding resources
 - Open an issue on GitHub for bugs or questions
 
 Happy coding! 🚀

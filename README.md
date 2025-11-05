@@ -57,7 +57,7 @@ url: "https://example.com"
 Brief description of the resource.
 ```
 
-See [HOW_TO_CONTRIBUTE.md](HOW_TO_CONTRIBUTE.md) for detailed instructions.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions.
 
 ## 🛠️ Tech Stack
 
@@ -71,8 +71,7 @@ See [HOW_TO_CONTRIBUTE.md](HOW_TO_CONTRIBUTE.md) for detailed instructions.
 
 We welcome contributions! Please see:
 
-- [HOW_TO_CONTRIBUTE.md](HOW_TO_CONTRIBUTE.md) - Quick guide to adding resources
-- [CONTRIBUTING.md](CONTRIBUTING.md) - Detailed contributing guide
+- [CONTRIBUTING.md](CONTRIBUTING.md) - Complete contributing guide
 
 ## 📄 Resource Types
 

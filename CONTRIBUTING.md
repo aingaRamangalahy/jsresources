@@ -2,6 +2,8 @@
 
 Welcome to the JS Resources contributing guide! We're excited to have you contribute to this curated collection of JavaScript/TypeScript learning resources.
 
+**Contributing means**: Adding new learning resources by creating a Pull Request (PR) to the `master` branch. All contributions should follow the workflow outlined in this guide.
+
 ## Table of Contents
 
 - [Code of Conduct](#code-of-conduct)
@@ -31,15 +33,25 @@ This project follows a standard code of conduct:
 
 ### Initial Setup
 
+1. **Fork the repository** on GitHub
+2. **Clone your fork** locally:
 ```bash
-# Clone the repository
 git clone https://github.com/YOUR_USERNAME/jsresources.git
 cd jsresources
+```
 
-# Install dependencies
+3. **Add the upstream remote** (to sync with the original repository):
+```bash
+git remote add upstream https://github.com/ORIGINAL_OWNER/jsresources.git
+```
+
+4. **Install dependencies**:
+```bash
 pnpm install
+```
 
-# Run development server
+5. **Run development server**:
+```bash
 pnpm dev
 ```
 
@@ -86,7 +98,13 @@ pnpm preview
 
 ### Creating a Branch
 
+Always create a new branch from `master` for your changes:
+
 ```bash
+# Make sure you're on master and up to date
+git checkout master
+git pull upstream master
+
 # Create a feature branch
 git checkout -b add-resource-name
 
@@ -210,6 +228,16 @@ Types:
 
 ## Pull Request Process
 
+### Workflow Summary
+
+The standard contribution workflow is:
+1. Fork the repository
+2. Create a branch from `master`
+3. Add your new resource file(s)
+4. Test locally
+5. Commit and push to your fork
+6. Open a Pull Request to the `master` branch
+
 ### Before Submitting
 
 1. **Test locally**
@@ -230,6 +258,26 @@ Types:
    - Ensure only relevant files are modified
    - Check for typos
    - Verify frontmatter accuracy
+
+### Submitting Your PR
+
+1. **Commit your changes**:
+   ```bash
+   git add content/resources/your-resource-name.md
+   git commit -m "feat(resources): add [Resource Title]"
+   ```
+
+2. **Push to your fork**:
+   ```bash
+   git push origin add-resource-name
+   ```
+
+3. **Open a Pull Request** on GitHub:
+   - Go to the original repository
+   - Click "New Pull Request"
+   - Select your fork and branch
+   - **Target branch**: `master`
+   - Fill out the PR template below
 
 ### PR Template
 
@@ -259,9 +307,9 @@ Brief description of your changes
 
 ### Review Process
 
-1. A maintainer will review your PR
+1. A maintainer will review your PR to the `master` branch
 2. Address any feedback or requested changes
-3. Once approved, your PR will be merged
+3. Once approved, your PR will be merged into `master`
 4. Your contribution will be live on the next deployment! 🎉
 
 ## Development Tips
