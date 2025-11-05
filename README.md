@@ -2,17 +2,6 @@
 
 A beautiful, minimalist curation site for JavaScript/TypeScript learning resources. Built with Nuxt 3, Nuxt Content, and NuxtUI.
 
-## ✨ Features
-
-- 🎯 **Curated Resources** - High-quality courses, videos, articles, and documentation
-- 🔍 **Advanced Filtering** - Filter by technology, type, level, language, and price
-- 🔎 **Full-Text Search** - Search across titles, authors, and descriptions
-- 📊 **Smart Sorting** - Sort alphabetically or by date
-- 🌑 **Dark Theme** - Beautiful dark theme design
-- 📱 **Responsive Design** - Mobile-first, works on all devices
-- ⚡ **Static Site** - Fast, generated with Nuxt SSG
-- 🎨 **Modern UI** - Clean, developer-friendly design with NuxtUI
-
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -46,24 +35,6 @@ pnpm dev              # Start dev server
 pnpm build            # Build for production
 pnpm generate         # Generate static site
 pnpm preview          # Preview production build
-```
-
-## 🏗️ Project Structure
-
-```
-jsresources/
-├── content/
-│   └── resources/          # Resource markdown files
-├── pages/
-│   ├── index.vue          # Home page
-│   └── resources/
-│       └── [...slug].vue  # Resource detail page
-├── composables/
-│   └── useResourceFilters.ts
-├── types/
-│   └── resource.ts
-├── nuxt.config.ts
-└── package.json
 ```
 
 ## 📝 Adding Resources
@@ -124,7 +95,7 @@ We welcome contributions! Please see:
 - **Intermediate** - Some experience required
 - **Advanced** - For experienced developers
 
-## 🌍 Languages
+## 🌍 Resource Languages
 
 Currently supporting:
 - 🇬🇧 English (en)
