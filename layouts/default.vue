@@ -1,32 +1,4 @@
 <script setup lang="ts">
-import type { Resource } from '~/types/resource'
-
-// Provide context for sidebar data - pages can inject their own data
-const sidebarData = ref({
-  filters: {
-    search: '',
-    topics: [],
-    type: [],
-    level: [],
-    language: null,
-    price: null
-  },
-  allTopics: [],
-  showSidebar: true
-})
-
-// Provide handlers that pages can override
-const sidebarHandlers = ref({
-  updateFilters: () => {},
-  toggleTopic: () => {},
-  toggleType: () => {},
-  toggleLevel: () => {},
-  resetFilters: () => {}
-})
-
-// Provide the data and handlers to child components
-provide('sidebarData', sidebarData)
-provide('sidebarHandlers', sidebarHandlers)
 </script>
 
 <template>

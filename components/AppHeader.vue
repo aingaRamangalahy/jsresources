@@ -12,18 +12,16 @@ import {
 } from '~/components/ui/dialog'
 
 const isDialogOpen = ref(false)
+const { totalResources } = useResourceStats()
 </script>
 
 <template>
   <header class="border-b-[0.5px] border-gray-700 backdrop-blur-sm sticky top-0 z-10 bg-[var(--color-neutral-950)]/80">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
       <div class="flex items-center justify-between">
-        <!-- Spacer for balance -->
-        <div class="flex-1"></div>
-        
-        <!-- Logo & Title - Centered -->
-        <div class="flex-1 flex flex-col items-center justify-center gap-1">
-          <div class="flex items-center justify-center gap-0">
+        <!-- Logo & Title - Left side -->
+        <div class="flex flex-col gap-1">
+          <div class="flex items-center gap-0">
             <div>
               <h1 class="text-2xl font-bold bg-gradient-to-r from-[var(--color-neutral-100)] to-[var(--color-neutral-400)] bg-clip-text text-transparent">
                 jsresources
@@ -31,17 +29,17 @@ const isDialogOpen = ref(false)
             </div>
             <div class="relative">
               <div class="absolute -inset-1 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-info)] rounded-lg blur opacity-25"></div>
-              <img src="/icon_2.svg" alt="JS Resources" class="size-10 relative" />
+              <img src="/icon_2.svg" alt="JS Resources" class="size-10 relative -left-[5px] top-[2.5px]" />
             </div>
           </div>
           <!-- Subtitle -->
-          <p class="text-xs">
+          <p class="text-xs text-[var(--color-neutral-400)]">
             Learning resources for javascript developers
           </p>
         </div>
         
         <!-- Actions - Right side -->
-        <div class="flex-1 flex justify-end items-center gap-3">
+        <div class="flex items-center gap-3">
           <Dialog v-model:open="isDialogOpen">
             <DialogTrigger as-child>
               <Button
@@ -49,8 +47,8 @@ const isDialogOpen = ref(false)
                 size="sm"
                 class="text-xs"
               >
-                <Plus class="size-3 mr-1.5" />
-                Submit a Resource
+                <Plus class="size-3 md:mr-1.5" />
+                <span class="hidden md:inline">Submit a resource</span>
               </Button>
             </DialogTrigger>
             <DialogContent class="sm:max-w-md">
@@ -86,15 +84,21 @@ const isDialogOpen = ref(false)
               </DialogFooter>
             </DialogContent>
           </Dialog>
-          <a
-            href="https://github.com/aingaRamangalahy/jsresources/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-[var(--color-neutral-400)] hover:text-[var(--color-primary)] transition-colors duration-300"
-            aria-label="View on GitHub"
-          >
-            <Github class="size-5" />
-          </a>
+          <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1.5 px-2.5 py-1 bg-[var(--color-neutral-900)] border border-[var(--color-neutral-800)] rounded-md">
+              <span class="text-xs font-medium text-[var(--color-neutral-400)]">Total resources:</span>
+              <span class="text-xs font-semibold text-[var(--color-primary)]">{{ totalResources }}</span>
+            </div>
+            <a
+              href="https://github.com/aingaRamangalahy/jsresources/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-[var(--color-neutral-400)] hover:text-[var(--color-primary)] transition-colors duration-300"
+              aria-label="View on GitHub"
+            >
+              <Github class="size-5" />
+            </a>
+          </div>
         </div>
       </div>
     </div>
