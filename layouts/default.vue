@@ -41,7 +41,7 @@ provide('sidebarHandlers', sidebarHandlers)
     <footer class="border-t border-[var(--color-neutral-800)]/50 mt-20">
       <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <p class="text-center text-sm text-[var(--color-neutral-600)]">
-          Curated with care for the JavaScript community
+          curated with love for the JavaScript community
         </p>
       </div>
     </footer>

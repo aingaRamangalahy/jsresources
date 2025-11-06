@@ -1,0 +1,14 @@
+---
+title: "You Don't Know JS"
+author: "Kyle Simpson"
+platform: "GitHub"
+type: "documentation"
+topics: ["javascript","advanced-concepts"]
+level: "advanced"
+language: "en"
+price: "free"
+url: "https://github.com/getify/You-Dont-Know-JS"
+---
+
+Deep dive series into JavaScript's core mechanisms including scope, closures, this keyword, prototypes, and asynchronous patterns. Essential reading for understanding JavaScript deeply.
+
