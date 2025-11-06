@@ -3,6 +3,39 @@
 @layer base {
   :root {
     /* ============================================
+       SHADCN-VUE REQUIRED CSS VARIABLES (HSL format)
+       ============================================ */
+    --background: 210 40% 2%; /* Dark background (--color-neutral-950) */
+    --foreground: 0 0% 96%; /* Light text (--color-neutral-100) */
+    
+    --card: 210 24% 9%; /* Card background (--color-neutral-900) */
+    --card-foreground: 0 0% 96%; /* Card text */
+    
+    --popover: 210 24% 9%; /* Popover background */
+    --popover-foreground: 0 0% 96%; /* Popover text */
+    
+    --primary: 48 96% 53%; /* Primary color (--color-primary) */
+    --primary-foreground: 0 0% 4%; /* Text on primary */
+    
+    --secondary: 210 20% 25%; /* Secondary background */
+    --secondary-foreground: 0 0% 96%; /* Text on secondary */
+    
+    --muted: 210 24% 14%; /* Muted background (--color-neutral-800) */
+    --muted-foreground: 0 0% 64%; /* Muted text (--color-neutral-400) */
+    
+    --accent: 210 20% 25%; /* Accent background */
+    --accent-foreground: 0 0% 96%; /* Text on accent */
+    
+    --destructive: 0 84% 60%; /* Destructive/danger color */
+    --destructive-foreground: 0 0% 96%; /* Text on destructive */
+    
+    --border: 210 18% 25%; /* Border color (--color-neutral-700) */
+    --input: 210 18% 25%; /* Input border */
+    --ring: 48 96% 53%; /* Focus ring (primary color) */
+    
+    --radius: 0.5rem; /* Border radius */
+
+    /* ============================================
        PRIMARY COLORS
        ============================================ */
     --color-primary: #facc15;

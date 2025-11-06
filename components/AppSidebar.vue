@@ -73,6 +73,28 @@ const levelOptions = [
         </Button>
       </div>
 
+       <!-- Topic Pills -->
+       <div v-if="allTopics.length > 0" class="space-y-2">
+        <label class="text-xs font-medium text-[var(--color-neutral-400)] uppercase tracking-wide">
+          Topics
+        </label>
+        <div class="flex flex-wrap gap-1.5">
+          <button
+            v-for="topic in allTopics"
+            :key="topic"
+            @click="emit('toggle-topic', topic)"
+            :class="[
+              'px-2 py-1 text-xs rounded-md transition-colors capitalize cursor-pointer',
+              filters.topics.includes(topic)
+                ? 'bg-[var(--color-primary)] text-[var(--color-neutral-950)]'
+                : 'text-[var(--color-neutral-500)] hover:text-[var(--color-neutral-300)] hover:bg-[var(--color-neutral-900)] border border-[var(--color-neutral-800)]'
+            ]"
+          >
+            {{ topic }}
+          </button>
+        </div>
+      </div>
+
       <!-- Type Pills -->
       <div class="space-y-2">
         <label class="text-xs font-medium text-[var(--color-neutral-400)] uppercase tracking-wide">
@@ -121,7 +143,7 @@ const levelOptions = [
       <!-- Language Filter -->
       <div class="space-y-2">
         <label class="text-xs font-medium text-[var(--color-neutral-400)] uppercase tracking-wide">
-          Language
+          Resource Language
         </label>
         <Select :model-value="filters.language" @update:model-value="updateFilter('language', $event)">
           <SelectTrigger class="h-8 w-full bg-[var(--color-neutral-900)] border-[var(--color-neutral-800)] text-sm">
@@ -150,28 +172,6 @@ const levelOptions = [
             <SelectItem value="paid">Paid</SelectItem>
           </SelectContent>
         </Select>
-      </div>
-
-      <!-- Topic Pills -->
-      <div v-if="allTopics.length > 0" class="space-y-2">
-        <label class="text-xs font-medium text-[var(--color-neutral-400)] uppercase tracking-wide">
-          Topics
-        </label>
-        <div class="flex flex-wrap gap-1.5">
-          <button
-            v-for="topic in allTopics"
-            :key="topic"
-            @click="emit('toggle-topic', topic)"
-            :class="[
-              'px-2 py-1 text-xs rounded-md transition-colors capitalize cursor-pointer',
-              filters.topics.includes(topic)
-                ? 'bg-[var(--color-primary)] text-[var(--color-neutral-950)]'
-                : 'text-[var(--color-neutral-500)] hover:text-[var(--color-neutral-300)] hover:bg-[var(--color-neutral-900)] border border-[var(--color-neutral-800)]'
-            ]"
-          >
-            {{ topic }}
-          </button>
-        </div>
       </div>
 
       <!-- Clear All Button -->
