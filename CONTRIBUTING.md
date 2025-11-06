@@ -65,8 +65,6 @@ jsresources/
 │   └── resources/          # Resource markdown files
 ├── pages/
 │   ├── index.vue          # Home page with grid and filters
-│   └── resources/
-│       └── [...slug].vue  # Dynamic resource detail page
 ├── composables/
 │   └── useResourceFilters.ts  # Filtering logic
 ├── types/
