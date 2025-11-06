@@ -197,7 +197,7 @@ Example structure:
 ### Styling
 
 - Use Tailwind CSS utilities
-- Follow NuxtUI component patterns
+- Follow shadcn/ui component patterns
 - Maintain dark mode support
 - Keep responsive design (mobile-first)
 
@@ -359,8 +359,7 @@ const filters = useState('resourceFilters', () => ({
 ## Recognition
 
 Contributors will be:
-- Listed in the project README
-- Credited in release notes
+- Listed in the project README 
 - Part of the JS Resources community!
 
 Thank you for contributing! 🚀
