@@ -78,7 +78,6 @@ We welcome contributions! Please see:
 - **Video** 🎥 - Individual video tutorials
 - **Course** 🎓 - Complete course series
 - **Article** 📝 - Blog posts and written guides
-- **Documentation** 📚 - Official documentation
 
 ## 🎯 Supported Topics
 

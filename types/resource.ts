@@ -1,4 +1,4 @@
-export type ResourceType = 'video' | 'course' | 'article' | 'documentation'
+export type ResourceType = 'video' | 'course' | 'article' | 'book' | 'tutorial' | 'github' | 'website'
 export type ResourceLevel = 'beginner' | 'intermediate' | 'advanced'
 export type ResourceLanguage = 'fr' | 'en'
 export type ResourcePrice = 'free' | 'paid'

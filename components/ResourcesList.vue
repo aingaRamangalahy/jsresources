@@ -1,3 +1,51 @@
+<script setup lang="ts">
+import { 
+  Search, 
+  ExternalLink, 
+  Play, 
+  GraduationCap, 
+  FileText, 
+  BookOpen,
+  Github,
+  Globe,
+} from 'lucide-vue-next'
+import type { Resource } from '~/types/resource'
+import type { BadgeVariants } from './ui/badge';
+
+interface Props {
+  resources: Resource[]
+  loading?: boolean
+}
+
+withDefaults(defineProps<Props>(), {
+  loading: false
+})
+
+// Type icons (Lucide)
+const getTypeIcon = (type: string) => {
+  const icons = {
+    video: Play,
+    course: GraduationCap,
+    article: FileText,
+    book: BookOpen,
+    tutorial: BookOpen,
+    github: Github,
+    website: Globe,
+  }
+  return icons[type as keyof typeof icons] || FileText
+}
+
+// Level variants (design system alignment)
+const getLevelVariant = (level: string) => {
+  const variants = {
+    beginner: 'success',    // green
+    intermediate: 'info',   // blue  
+    advanced: 'purple'      // purple
+  }
+  return variants[level as keyof typeof variants] as BadgeVariants["variant"]
+}
+</script>
+
 <template>
   <div>
     <!-- Header -->
@@ -113,45 +161,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { 
-  Search, 
-  ExternalLink, 
-  Play, 
-  GraduationCap, 
-  FileText, 
-  BookOpen
-} from 'lucide-vue-next'
-import type { Resource } from '~/types/resource'
-
-interface Props {
-  resources: Resource[]
-  loading?: boolean
-}
-
-withDefaults(defineProps<Props>(), {
-  loading: false
-})
-
-// Type icons (Lucide)
-const getTypeIcon = (type: string) => {
-  const icons = {
-    video: Play,
-    course: GraduationCap,
-    article: FileText,
-    documentation: BookOpen
-  }
-  return icons[type as keyof typeof icons] || FileText
-}
-
-// Level variants (design system alignment)
-const getLevelVariant = (level: string) => {
-  const variants = {
-    beginner: 'success',    // green
-    intermediate: 'info',   // blue  
-    advanced: 'purple'      // purple
-  }
-  return variants[level as keyof typeof variants] || 'default'
-}
-</script>

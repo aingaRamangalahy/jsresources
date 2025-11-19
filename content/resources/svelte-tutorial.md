@@ -2,7 +2,7 @@
 title: "Svelte Tutorial"
 author: "Svelte Team"
 platform: "Svelte"
-type: "documentation"
+type: "website"
 topics: ["svelte","javascript"]
 level: "beginner"
 language: "en"

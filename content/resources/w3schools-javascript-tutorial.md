@@ -2,7 +2,7 @@
 title: "W3Schools JavaScript Tutorial"
 author: "W3Schools"
 platform: "W3Schools"
-type: "documentation"
+type: "tutorial"
 topics: ["javascript"]
 level: "beginner"
 language: "en"

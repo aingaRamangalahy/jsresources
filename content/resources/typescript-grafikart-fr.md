@@ -2,8 +2,8 @@
 title: "Apprendre TypeScript"
 author: "Grafikart"
 platform: "Grafikart"
-type: "tutorial"
-topics: ["vue", "javascript"]
+type: "course"
+topics: ["typescript"]
 level: "intermediate"
 language: "fr"
 price: "free"

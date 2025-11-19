@@ -36,7 +36,9 @@ const typeOptions = [
   { value: 'video', label: '📹 Video', emoji: '📹' },
   { value: 'course', label: '🎓 Course', emoji: '🎓' },
   { value: 'article', label: '📄 Article', emoji: '📄' },
-  { value: 'documentation', label: '📚 Docs', emoji: '📚' }
+  { value: 'book', label: '📚 Book', emoji: '📚' },
+  { value: 'tutorial', label: '📖 Tutorial', emoji: '📖' },
+  { value: 'documentation', label: '📚 Documentation', emoji: '📚' },
 ]
 
 const levelOptions = [
