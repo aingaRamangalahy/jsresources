@@ -2,7 +2,7 @@
 title: "TypeScript Decorators - Advanced Patterns"
 author: "Microsoft"
 platform: "TypeScript Docs"
-type: "documentation"
+type: "book"
 topics: ["typescript"]
 level: "advanced"
 language: "en"

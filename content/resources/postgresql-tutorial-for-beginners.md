@@ -2,7 +2,7 @@
 title: "PostgreSQL Tutorial for Beginners"
 author: "PostgreSQL Tutorial"
 platform: "PostgreSQL Tutorial"
-type: "documentation"
+type: "tutorial"
 topics: ["database","sql"]
 level: "beginner"
 language: "en"

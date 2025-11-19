@@ -6,6 +6,8 @@ import {
   FileText, 
   BookOpen,
   ExternalLink,
+  Github,
+  Globe,
 } from 'lucide-vue-next'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardAction } from '~/components/ui/card'
 import { Badge } from '~/components/ui/badge'
@@ -21,7 +23,10 @@ const typeIcons: Record<string, any> = {
   video: PlayCircle,
   course: GraduationCap,
   article: FileText,
-  documentation: BookOpen
+  book: BookOpen,
+  tutorial: BookOpen,
+  github: Github,
+  website: Globe,
 }
 
 // Level color classes with opacity

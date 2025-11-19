@@ -2,7 +2,7 @@
 title: "You Don't Know JS"
 author: "Kyle Simpson"
 platform: "GitHub"
-type: "documentation"
+type: "book"
 topics: ["javascript","advanced-concepts"]
 level: "advanced"
 language: "en"

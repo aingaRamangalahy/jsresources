@@ -2,7 +2,7 @@
 title: "Eloquent JavaScript"
 author: "Marijn Haverbeke"
 platform: "Eloquent JavaScript"
-type: "documentation"
+type: "book"
 topics: ["javascript"]
 level: "intermediate"
 language: "en"

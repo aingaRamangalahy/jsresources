@@ -121,7 +121,7 @@ Each resource is a markdown file in `/content/resources/` with YAML frontmatter:
 title: string              # Required: Resource title
 author: string             # Required: Creator/author name
 platform: string           # Required: Platform name
-type: string              # Required: video | course | article | documentation
+type: string              # Required: video | course | article | documentation | book | tutorial | github | website
 topics: string[]          # Required: Array of topics (lowercase)
 level: string             # Required: beginner | intermediate | advanced
 language: string          # Required: en | fr
@@ -291,7 +291,7 @@ Brief description of your changes
 
 ## Resource Details (if applicable)
 - **Title**: Resource name
-- **Type**: video/course/article/documentation
+- **Type**: video/course/article/documentation/book/tutorial/github/website
 - **Topics**: List topics
 - **Why valuable**: Brief explanation
 
