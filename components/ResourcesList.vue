@@ -8,6 +8,7 @@ import {
   BookOpen,
   Github,
   Globe,
+  NotebookPen,
 } from 'lucide-vue-next'
 import type { Resource } from '~/types/resource'
 import type { BadgeVariants } from './ui/badge';
@@ -28,7 +29,7 @@ const getTypeIcon = (type: string) => {
     course: GraduationCap,
     article: FileText,
     book: BookOpen,
-    tutorial: BookOpen,
+    tutorial: NotebookPen,
     github: Github,
     website: Globe,
   }

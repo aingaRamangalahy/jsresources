@@ -1,157 +1,238 @@
 <script setup lang="ts">
-import type { ResourceFilters } from '~/types/resource'
+import { X } from 'lucide-vue-next'
+import type { Component } from 'vue'
+import { computed, toRefs } from 'vue'
+import type { ResourceFilters, ResourceLanguage } from '~/types/resource'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select'
-import { Button } from '~/components/ui/button'
+
+interface TypeOption {
+  value: string
+  label: string
+  icon: Component
+}
+
+interface LevelOption {
+  value: string
+  label: string
+}
+
+type ActiveFilterType = 'type' | 'level' | 'language' | 'price'
+
+interface ActiveFilterTag {
+  label: string
+  value: string
+  type: ActiveFilterType
+}
 
 interface Props {
   filters: ResourceFilters
-  allTopics: string[]
+  typeOptions: TypeOption[]
+  levelOptions: LevelOption[]
 }
 
 const props = defineProps<Props>()
+const { filters, typeOptions, levelOptions } = toRefs(props)
 
 const emit = defineEmits<{
-  'update:filters': [filters: ResourceFilters]
-  'toggle-topic': [topic: string]
   'toggle-type': [type: string]
   'toggle-level': [level: string]
+  'update-filter': [key: keyof ResourceFilters, value: ResourceFilters[keyof ResourceFilters]]
   'reset-filters': []
 }>()
 
-// Update individual filter properties
-const updateFilter = (key: keyof ResourceFilters, value: any) => {
-  emit('update:filters', { ...props.filters, [key]: value })
+const updateFilter = (key: keyof ResourceFilters, value: ResourceFilters[keyof ResourceFilters]) => {
+  emit('update-filter', key, value)
 }
 
-const hasActiveFilters = computed(() => {
-  return props.filters.topics.length > 0 || 
-         props.filters.type.length > 0 || 
-         props.filters.level.length > 0 || 
-         props.filters.language || 
-         props.filters.price
+const activeFilterTags = computed<ActiveFilterTag[]>(() => {
+  const tags: ActiveFilterTag[] = []
+  const state = filters.value
+
+  state.type.forEach(typeValue => {
+    const option = typeOptions.value.find(option => option.value === typeValue)
+    if (option) {
+      tags.push({ label: option.label, value: typeValue, type: 'type' })
+    }
+  })
+
+  state.level.forEach(levelValue => {
+    const option = levelOptions.value.find(option => option.value === levelValue)
+    if (option) {
+      tags.push({ label: option.label, value: levelValue, type: 'level' })
+    }
+  })
+
+  if (state.language) {
+    const label = state.language === 'en' ? '🇬🇧 English' : '🇫🇷 Français'
+    tags.push({ label, value: state.language, type: 'language' })
+  }
+
+  if (state.price) {
+    const label = state.price === 'free' ? '💰 Free' : '💰 Paid'
+    tags.push({ label, value: state.price, type: 'price' })
+  }
+
+  return tags
 })
 
-// Type and level options
-const typeOptions = [
-  { value: 'video', label: '📹 Video', emoji: '📹' },
-  { value: 'course', label: '🎓 Course', emoji: '🎓' },
-  { value: 'article', label: '📄 Article', emoji: '📄' },
-  { value: 'book', label: '📚 Book', emoji: '📚' },
-  { value: 'tutorial', label: '📖 Tutorial', emoji: '📖' },
-  { value: 'documentation', label: '📚 Documentation', emoji: '📚' },
-]
+const hasActiveFilters = computed(() => activeFilterTags.value.length > 0)
 
-const levelOptions = [
-  { value: 'beginner', label: 'Beginner', color: 'success' },
-  { value: 'intermediate', label: 'Intermediate', color: 'info' },
-  { value: 'advanced', label: 'Advanced', color: 'purple' }
-]
+const removeFilter = (tag: ActiveFilterTag) => {
+  if (tag.type === 'type') {
+    emit('toggle-type', tag.value)
+  } else if (tag.type === 'level') {
+    emit('toggle-level', tag.value)
+  } else if (tag.type === 'language') {
+    updateFilter('language', null)
+  } else if (tag.type === 'price') {
+    updateFilter('price', null)
+  }
+}
 </script>
 
 <template>
-  <div class="space-y-6">
-    <!-- Type Pills -->
-    <div class="space-y-2">
-      <label class="text-xs font-medium text-[var(--color-neutral-400)] uppercase tracking-wide">Type</label>
-      <div class="flex flex-wrap gap-2">
+  <div class="space-y-4">
+    <div v-if="hasActiveFilters" class="mb-4">
+      <div class="flex flex-wrap items-center gap-2 p-3 bg-[var(--color-neutral-900)]/50 border border-[var(--color-neutral-800)] rounded-lg">
+        <span class="text-xs font-medium text-[var(--color-neutral-400)]">Active:</span>
         <button
-          v-for="type in typeOptions"
-          :key="type.value"
-          @click="emit('toggle-type', type.value)"
-          :class="[
-            'px-3 py-1.5 text-sm rounded-md transition-colors cursor-pointer flex items-center gap-1.5',
-            filters.type.includes(type.value as any)
-              ? 'bg-[var(--color-neutral-800)] text-[var(--color-neutral-100)]'
-              : 'text-[var(--color-neutral-500)] hover:text-[var(--color-neutral-300)] hover:bg-[var(--color-neutral-900)]'
-          ]"
+          v-for="tag in activeFilterTags"
+          :key="`${tag.type}-${tag.value}`"
+          @click="removeFilter(tag)"
+          class="flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-md bg-[var(--color-primary)] text-[var(--color-neutral-950)] hover:bg-[var(--color-primary)]/80 transition-colors"
         >
-          <span>{{ type.emoji }}</span>
-          <span>{{ type.label.replace(type.emoji + ' ', '') }}</span>
+          <span>{{ tag.label }}</span>
+          <X class="size-3" />
+        </button>
+        <button
+          @click="emit('reset-filters')"
+          class="ml-auto text-xs text-[var(--color-neutral-400)] hover:text-[var(--color-neutral-200)] transition-colors"
+        >
+          Clear all
         </button>
       </div>
     </div>
 
-    <!-- Level Pills -->
-    <div class="space-y-2">
-      <label class="text-xs font-medium text-[var(--color-neutral-400)] uppercase tracking-wide">Level</label>
-      <div class="flex flex-wrap gap-2">
-        <button
-          v-for="level in levelOptions"
-          :key="level.value"
-          @click="emit('toggle-level', level.value)"
-          :class="[
-            'px-3 py-1.5 text-sm rounded-md transition-colors capitalize cursor-pointer',
-            filters.level.includes(level.value as any)
-              ? 'bg-[var(--color-neutral-800)] text-[var(--color-neutral-100)]'
-              : 'text-[var(--color-neutral-500)] hover:text-[var(--color-neutral-300)] hover:bg-[var(--color-neutral-900)]'
-          ]"
-        >
-          {{ level.label }}
-        </button>
+    <div class="bg-[var(--color-neutral-900)] border border-[var(--color-neutral-800)] rounded-lg p-5 space-y-5">
+    <!-- Type & Level Filters Row -->
+    <div class="flex flex-wrap gap-6">
+      <!-- Type Filter -->
+      <div class="flex-1 min-w-[200px] space-y-2">
+        <label class="text-sm font-semibold text-[var(--color-neutral-200)]">
+          Type
+        </label>
+        <div class="flex flex-wrap gap-2">
+          <button
+            v-for="type in typeOptions"
+            :key="type.value"
+            @click="emit('toggle-type', type.value)"
+            :class="[
+              'px-3 py-2 text-sm rounded-lg transition-all cursor-pointer flex items-center gap-2',
+              filters.type.includes(type.value as any)
+                ? 'bg-[var(--color-primary)] text-[var(--color-neutral-950)] shadow-lg shadow-[var(--color-primary)]/20'
+                : 'text-[var(--color-neutral-400)] hover:text-[var(--color-neutral-200)] hover:bg-[var(--color-neutral-800)] border border-[var(--color-neutral-700)]'
+            ]"
+          >
+            <component
+              :is="type.icon"
+              :class="[
+                'size-4',
+                filters.type.includes(type.value as any)
+                  ? 'text-[var(--color-neutral-950)]'
+                  : 'text-[var(--color-primary)]'
+              ]"
+              aria-hidden="true"
+            />
+            <span>{{ type.label }}</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Level Filter -->
+      <div class="flex-1 min-w-[200px] space-y-2">
+        <label class="text-sm font-semibold text-[var(--color-neutral-200)]">
+          Level
+        </label>
+        <div class="flex flex-wrap gap-2">
+          <button
+            v-for="level in levelOptions"
+            :key="level.value"
+            @click="emit('toggle-level', level.value)"
+            :class="[
+              'px-3 py-2 text-sm rounded-lg transition-all capitalize cursor-pointer',
+              filters.level.includes(level.value as any)
+                ? 'bg-[var(--color-primary)] text-[var(--color-neutral-950)] shadow-lg shadow-[var(--color-primary)]/20'
+                : 'text-[var(--color-neutral-400)] hover:text-[var(--color-neutral-200)] hover:bg-[var(--color-neutral-800)] border border-[var(--color-neutral-700)]'
+            ]"
+          >
+            {{ level.label }}
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- Language Filter -->
-    <div class="space-y-2">
-      <label class="text-xs font-medium text-[var(--color-neutral-400)] uppercase tracking-wide">Language</label>
-      <Select :model-value="filters.language" @update:model-value="updateFilter('language', $event)">
-        <SelectTrigger class="h-10 w-full bg-[var(--color-neutral-900)] border-[var(--color-neutral-800)]">
-          <SelectValue placeholder="All Languages" />
-        </SelectTrigger>
-        <SelectContent class="z-50 bg-[var(--color-neutral-900)] border-[var(--color-neutral-800)]">
-          <SelectItem :value="null">All Languages</SelectItem>
-          <SelectItem value="en">🇬🇧 English</SelectItem>
-          <SelectItem value="fr">🇫🇷 Français</SelectItem>
-        </SelectContent>
-      </Select>
-    </div>
-
-    <!-- Price Filter -->
-    <div class="space-y-2">
-      <label class="text-xs font-medium text-[var(--color-neutral-400)] uppercase tracking-wide">Price</label>
-      <Select :model-value="filters.price" @update:model-value="updateFilter('price', $event)">
-        <SelectTrigger class="h-10 w-full bg-[var(--color-neutral-900)] border-[var(--color-neutral-800)]">
-          <SelectValue placeholder="All Prices" />
-        </SelectTrigger>
-        <SelectContent class="z-50 bg-[var(--color-neutral-900)] border-[var(--color-neutral-800)]">
-          <SelectItem :value="null">All Prices</SelectItem>
-          <SelectItem value="free">Free</SelectItem>
-          <SelectItem value="paid">Paid</SelectItem>
-        </SelectContent>
-      </Select>
-    </div>
-
-    <!-- Topic Pills -->
-    <div v-if="allTopics.length > 0" class="space-y-2">
-      <label class="text-xs font-medium text-[var(--color-neutral-400)] uppercase tracking-wide">Topics</label>
-      <div class="flex flex-wrap gap-2">
-        <button
-          v-for="topic in allTopics"
-          :key="topic"
-          @click="emit('toggle-topic', topic)"
-          :class="[
-            'px-3 py-1.5 text-sm rounded-md transition-colors capitalize cursor-pointer',
-            filters.topics.includes(topic)
-              ? 'bg-[var(--color-primary)] text-[var(--color-neutral-950)]'
-              : 'text-[var(--color-neutral-500)] hover:text-[var(--color-neutral-300)] hover:bg-[var(--color-neutral-900)]'
-          ]"
-        >
-          {{ topic }}
-        </button>
+    <!-- Language & Price Row -->
+    <div class="flex flex-wrap gap-6">
+      <!-- Language Filter -->
+      <div class="flex-1 min-w-[200px] space-y-2">
+        <label class="text-sm font-semibold text-[var(--color-neutral-200)]">
+          Language
+        </label>
+        <Select :model-value="filters.language" @update:model-value="updateFilter('language', $event as ResourceLanguage | null)">
+          <SelectTrigger class="h-10 w-full bg-[var(--color-neutral-950)] border-[var(--color-neutral-800)] text-sm">
+            <SelectValue placeholder="All Languages" />
+          </SelectTrigger>
+          <SelectContent class="z-50 bg-[var(--color-neutral-900)] border-[var(--color-neutral-800)]">
+            <SelectItem :value="null">All Languages</SelectItem>
+            <SelectItem value="en">🇬🇧 English</SelectItem>
+            <SelectItem value="fr">🇫🇷 Français</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
-    </div>
 
-    <!-- Reset Button - Only when filters active -->
-    <div v-if="hasActiveFilters">
-      <Button
-        variant="outline"
-        size="sm"
-        @click="emit('reset-filters')"
-        class="w-full"
-      >
-        Clear all filters
-      </Button>
+      <!-- Price Filter -->
+      <div class="flex-1 min-w-[200px] space-y-2">
+        <label class="text-sm font-semibold text-[var(--color-neutral-200)]">
+          Price
+        </label>
+        <div class="flex flex-wrap gap-2">
+          <button
+            @click="updateFilter('price', null)"
+            :class="[
+              'px-3 py-2 text-sm rounded-lg transition-all cursor-pointer',
+              !filters.price
+                ? 'bg-[var(--color-primary)] text-[var(--color-neutral-950)] shadow-lg shadow-[var(--color-primary)]/20'
+                : 'text-[var(--color-neutral-400)] hover:text-[var(--color-neutral-200)] hover:bg-[var(--color-neutral-800)] border border-[var(--color-neutral-700)]'
+            ]"
+          >
+            All
+          </button>
+          <button
+            @click="updateFilter('price', 'free')"
+            :class="[
+              'px-3 py-2 text-sm rounded-lg transition-all cursor-pointer',
+              filters.price === 'free'
+                ? 'bg-[var(--color-primary)] text-[var(--color-neutral-950)] shadow-lg shadow-[var(--color-primary)]/20'
+                : 'text-[var(--color-neutral-400)] hover:text-[var(--color-neutral-200)] hover:bg-[var(--color-neutral-800)] border border-[var(--color-neutral-700)]'
+            ]"
+          >
+            Free
+          </button>
+          <button
+            @click="updateFilter('price', 'paid')"
+            :class="[
+              'px-3 py-2 text-sm rounded-lg transition-all cursor-pointer',
+              filters.price === 'paid'
+                ? 'bg-[var(--color-primary)] text-[var(--color-neutral-950)] shadow-lg shadow-[var(--color-primary)]/20'
+                : 'text-[var(--color-neutral-400)] hover:text-[var(--color-neutral-200)] hover:bg-[var(--color-neutral-800)] border border-[var(--color-neutral-700)]'
+            ]"
+          >
+            Paid
+          </button>
+        </div>
+      </div>
     </div>
   </div>
+</div>
 </template>
 
