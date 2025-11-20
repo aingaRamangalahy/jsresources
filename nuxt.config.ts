@@ -12,6 +12,13 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
 
+  components: [
+    {
+      path: '~/components',
+      pathPrefix: false,
+    },
+  ],
+
   shadcn: {
      /**
      * Prefix for all the imported component

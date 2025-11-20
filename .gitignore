@@ -25,3 +25,7 @@ Thumbs.db
 # Local
 .env.local
 
+
+ai_memory
+
+logs

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Github, Plus, GitPullRequest } from 'lucide-vue-next'
+import { Github, Plus, GitPullRequest, Eye } from 'lucide-vue-next'
 import { Button } from '~/components/ui/button'
 import {
   Dialog,
@@ -21,9 +21,12 @@ const { totalResources } = useResourceStats()
       <div class="flex items-center justify-between">
         <!-- Logo & Title - Left side -->
         <div class="flex flex-col gap-1">
-          <div class="flex items-center gap-0">
+          <NuxtLink
+            to="/"
+            class="flex items-center gap-0 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] rounded-md"
+          >
             <div>
-              <h1 class="text-2xl font-bold bg-gradient-to-r from-[var(--color-neutral-100)] to-[var(--color-neutral-400)] bg-clip-text text-transparent">
+              <h1 class="text-2xl font-bold bg-gradient-to-r from-[var(--color-neutral-100)] to-[var(--color-neutral-400)] bg-clip-text text-transparent group-hover:opacity-90 transition-opacity">
                 jsresources
               </h1>
             </div>
@@ -31,7 +34,7 @@ const { totalResources } = useResourceStats()
               <div class="absolute -inset-1 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-info)] rounded-lg blur opacity-25"></div>
               <img src="/icon_2.svg" alt="JS Resources" class="size-10 relative -left-[5px] top-[2.5px]" />
             </div>
-          </div>
+          </NuxtLink>
           <!-- Subtitle -->
           <p class="text-xs text-[var(--color-neutral-400)]">
             Learning resources for javascript developers
@@ -40,6 +43,18 @@ const { totalResources } = useResourceStats()
         
         <!-- Actions - Right side -->
         <div class="flex items-center gap-3">
+          <!-- Visualize Button -->
+          <Button
+            as="a"
+            href="/visualize"
+            variant="default"
+            size="sm"
+            class="text-xs"
+          >
+            <Eye class="size-3 md:mr-1.5" />
+            <span class="hidden md:inline">Visualize</span>
+          </Button>
+          
           <Dialog v-model:open="isDialogOpen">
             <DialogTrigger as-child>
               <Button

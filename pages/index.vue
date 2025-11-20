@@ -88,6 +88,56 @@ watch(() => resources.value, (newResources) => {
 
 <template>
   <div class="px-4 sm:px-6 lg:px-8 py-8 max-w-7xl mx-auto">
+    <!-- Featured: Visualize Section -->
+    <div class="mb-8 p-6 rounded-xl border-2 border-[var(--color-primary)]/30 bg-gradient-to-br from-[var(--color-primary)]/10 via-transparent to-[var(--color-info)]/10 hover:border-[var(--color-primary)]/50 transition-all">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="flex-1">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xs font-semibold tracking-widest text-[var(--color-primary)] uppercase px-2 py-1 bg-[var(--color-primary)]/10 rounded-md">
+              ✨ New Feature
+            </span>
+          </div>
+          <h2 class="text-2xl font-bold text-[var(--color-neutral-50)] mb-2">
+            Interactive Event Loop Visualizer
+          </h2>
+          <p class="text-sm text-[var(--color-neutral-400)] mb-3">
+            Understand how JavaScript's event loop works through interactive animations. See the call stack, Web APIs, callback queue, and microtask queue in action with real code examples.
+          </p>
+          <div class="flex flex-wrap gap-2 text-xs text-[var(--color-neutral-400)]">
+            <span class="flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              3 Interactive Examples
+            </span>
+            <span class="text-[var(--color-neutral-600)]">•</span>
+            <span class="flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Play/Pause Controls
+            </span>
+            <span class="text-[var(--color-neutral-600)]">•</span>
+            <span class="flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              Step-by-step Explanations
+            </span>
+          </div>
+        </div>
+        <div class="flex-shrink-0">
+          <NuxtLink to="/visualize">
+            <Button size="lg" class="gap-2 shadow-lg shadow-[var(--color-primary)]/20">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              Explore Visualizer
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"/>
+                <path d="m12 5 7 7-7 7"/>
+              </svg>
+            </Button>
+          </NuxtLink>
+        </div>
+      </div>
+    </div>
+
     <!-- Mobile Topics Toggle Button -->
     <div class="lg:hidden mb-4">
       <Button
