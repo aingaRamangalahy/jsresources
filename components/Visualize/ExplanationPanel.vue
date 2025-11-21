@@ -6,12 +6,9 @@ import { Badge } from '~/components/ui/badge'
 
 interface Props {
   explanationState: ExplanationState
-  isPlaying?: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  isPlaying: false
-})
+const props = defineProps<Props>()
 
 defineEmits<{
   showGlobal: []
@@ -34,7 +31,9 @@ const componentDisplayName = computed(() => {
   if (!props.explanationState.component) return ''
   
   const names: Record<ComponentType, string> = {
+    'js-engine': 'JS Engine',
     'call-stack': 'Call Stack',
+    'memory-heap': 'Memory Heap',
     'web-apis': 'Web APIs',
     'callback-queue': 'Callback Queue',
     'microtask-queue': 'Microtask Queue',
@@ -46,8 +45,12 @@ const componentDisplayName = computed(() => {
 
 const badgeVariant = computed(() => {
   switch (props.explanationState.component) {
-    case 'call-stack':
+    case 'js-engine':
       return 'default' as const
+    case 'call-stack':
+      return 'secondary' as const
+    case 'memory-heap':
+      return 'destructive' as const
     case 'web-apis':
       return 'secondary' as const
     case 'callback-queue':
@@ -163,9 +166,26 @@ const badgeVariant = computed(() => {
       </p>
     </Transition>
 
-    <!-- Hint when not playing -->
+    <!-- Details list for component explanations -->
     <div
-      v-if="!isPlaying && explanationState.type === 'global'"
+      v-if="explanationState.details && explanationState.details.length > 0"
+      class="mt-4 pt-4 border-t"
+    >
+      <ul class="space-y-2 text-sm text-muted-foreground">
+        <li
+          v-for="detail in explanationState.details"
+          :key="detail"
+          class="flex items-start gap-2"
+        >
+          <span class="text-primary mt-1">•</span>
+          <span>{{ detail }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Hint for interaction -->
+    <div
+      v-if="explanationState.type === 'global'"
       class="mt-4 pt-4 border-t flex items-start gap-2 text-sm text-muted-foreground"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0 mt-0.5">
@@ -173,7 +193,7 @@ const badgeVariant = computed(() => {
         <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
         <path d="M12 17h.01"/>
       </svg>
-      <span>Click on any component in the visualization to learn more about it, or press play to start the animation.</span>
+      <span>Click on any component in the visualization to learn more about it.</span>
     </div>
   </div>
 </template>

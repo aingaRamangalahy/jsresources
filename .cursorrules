@@ -1,0 +1,381 @@
+# Cursor AI Rules for jsresources Project
+
+## General Development Guidelines
+
+### Code Style
+- Use TypeScript strict mode
+- Prefer functional composition over classes where appropriate
+- Use explicit types, avoid `any` unless absolutely necessary
+- Follow Vue 3 Composition API patterns
+- Use Tailwind CSS for styling
+
+### File Organization
+- Keep components small and focused (single responsibility)
+- Co-locate tests with source files when logical
+- Use barrel exports (index.ts) for cleaner imports
+
+---
+
+## Test-Driven Development (TDD) Rules
+
+### When to Apply TDD
+Apply TDD **only** for:
+- ✅ Business logic with clear inputs/outputs (registry, utilities, composables)
+- ✅ Data structures and algorithms (scene graph, primitive registry)
+- ✅ State management (useVisualization composable)
+- ✅ Event handlers with deterministic behavior (keyboard navigation)
+- ✅ Pure functions and calculations
+
+**Do NOT use TDD for:**
+- ❌ Visual components (use Storybook or visual testing instead)
+- ❌ UI integration (use E2E or component tests after implementation)
+- ❌ Data definitions (specs, configs)
+- ❌ Manual testing tasks (accessibility audits)
+
+---
+
+## TDD Best Practices
+
+### 1. Test Structure (AAA Pattern)
+```typescript
+describe('ComponentName', () => {
+  it('should do something specific when condition', () => {
+    // Arrange - Set up test data and dependencies
+    const input = createTestInput()
+    
+    // Act - Execute the code under test
+    const result = functionUnderTest(input)
+    
+    // Assert - Verify the outcome
+    expect(result).toBe(expectedValue)
+  })
+})
+```
+
+### 2. Write Only Necessary Tests
+**Test behavior, not implementation:**
+- ✅ Test public API and contracts
+- ✅ Test edge cases and error handling
+- ✅ Test integration points between modules
+- ❌ Don't test private methods directly
+- ❌ Don't test framework internals (Vue reactivity, Konva internals)
+- ❌ Don't test trivial getters/setters
+
+**One assertion per test (when possible):**
+```typescript
+// ❌ Bad - Multiple unrelated assertions
+it('should handle user data', () => {
+  expect(user.name).toBe('John')
+  expect(user.age).toBe(30)
+  expect(user.email).toContain('@')
+})
+
+// ✅ Good - Focused single assertion
+it('should set user name correctly', () => {
+  expect(user.name).toBe('John')
+})
+
+it('should validate email format', () => {
+  expect(user.email).toContain('@')
+})
+```
+
+### 3. Test Naming Convention
+Use descriptive test names that explain behavior:
+```typescript
+// ❌ Bad - Vague
+it('works')
+it('test user')
+
+// ✅ Good - Specific and readable
+it('should load visualization spec from registry by id')
+it('should throw error when visualization id does not exist')
+it('should cache loaded specs to avoid redundant loads')
+```
+
+### 4. Test Coverage Goals
+- **Business logic**: Aim for 80-90% coverage
+- **Utilities/helpers**: Aim for 90-100% coverage
+- **UI components**: 50-70% is acceptable (focus on critical paths)
+- **Integration**: Focus on happy path + critical error cases
+
+---
+
+## TDD Workflow Rules
+
+### Red-Green-Refactor Cycle
+
+**🔴 RED - Write Failing Test First**
+```typescript
+// Write the test for behavior that doesn't exist yet
+it('should select node by id', () => {
+  const scene = new SceneGraph(mockDefinition)
+  scene.selectNode('node-1')
+  expect(scene.getSelectedNodeId()).toBe('node-1')
+})
+// ❌ Test fails - selectNode() doesn't exist yet
+```
+
+**🟢 GREEN - Write Minimal Implementation**
+```typescript
+// Implement just enough to make the test pass
+class SceneGraph {
+  private selectedNodeId: string | null = null
+  
+  selectNode(id: string): void {
+    this.selectedNodeId = id
+  }
+  
+  getSelectedNodeId(): string | null {
+    return this.selectedNodeId
+  }
+}
+// ✅ Test passes
+```
+
+**🔵 REFACTOR - Improve Code Quality**
+```typescript
+// Clean up, optimize, but keep tests green
+class SceneGraph {
+  private selectedNodeId: string | null = null
+  private nodes: Map<string, SceneNode>
+  
+  selectNode(id: string): void {
+    // Add validation after test passes
+    if (!this.nodes.has(id)) {
+      throw new Error(`Node ${id} not found`)
+    }
+    this.selectedNodeId = id
+  }
+  
+  getSelectedNodeId(): string | null {
+    return this.selectedNodeId
+  }
+}
+// ✅ Tests still pass, code is better
+```
+
+---
+
+## Test Execution Rules
+
+### DO NOT Run Tests Automatically
+- ❌ **Never use `run_terminal_cmd` to run tests**
+- ❌ Don't run `npm test`, `vitest run`, or `pnpm test`
+- ❌ Don't check test results automatically
+
+### Instead:
+- ✅ Write the test file completely
+- ✅ Tell the user: "Tests written. Please run: `pnpm test path/to/test.spec.ts`"
+- ✅ Wait for user to provide test output
+- ✅ Analyze output if user shares it
+- ✅ Fix tests based on user feedback
+
+**Example interaction:**
+```
+AI: "I've written tests for the registry in `data/visualizations/registry.spec.ts`. 
+     Please run: `pnpm test data/visualizations/registry.spec.ts` 
+     and share the output if there are any failures."
+
+User: [shares test output with errors]
+
+AI: "I see the issue - the test expects synchronous behavior but the registry 
+     uses async. Let me fix the test..."
+```
+
+---
+
+## Testing Stack for This Project
+
+### Unit Tests (Vitest)
+```typescript
+// tests/unit/registry.spec.ts
+import { describe, it, expect, vi } from 'vitest'
+import { loadVisualization } from '~/data/visualizations/registry'
+
+describe('Visualization Registry', () => {
+  it('should load and cache visualization specs', async () => {
+    const spec = await loadVisualization('js-runtime')
+    expect(spec.id).toBe('js-runtime')
+    
+    // Second call should use cache
+    const cachedSpec = await loadVisualization('js-runtime')
+    expect(cachedSpec).toBe(spec) // Same reference
+  })
+})
+```
+
+### Component Tests (Vitest + Vue Test Utils)
+```typescript
+// components/Visualize/ExplanationPanel.spec.ts
+import { mount } from '@vue/test-utils'
+import { describe, it, expect } from 'vitest'
+import ExplanationPanel from './ExplanationPanel.vue'
+
+describe('ExplanationPanel', () => {
+  it('should display global explanation', () => {
+    const wrapper = mount(ExplanationPanel, {
+      props: {
+        explanationState: {
+          type: 'global',
+          title: 'Test Title',
+          description: 'Test Description'
+        }
+      }
+    })
+    
+    expect(wrapper.text()).toContain('Test Title')
+  })
+})
+```
+
+### E2E Tests (Playwright)
+```typescript
+// tests/e2e/visualization.spec.ts
+import { test, expect } from '@playwright/test'
+
+test('should navigate visualization with keyboard', async ({ page }) => {
+  await page.goto('/visualize/js-runtime')
+  
+  // Press Tab to focus first node
+  await page.keyboard.press('Tab')
+  
+  // Press Enter to select
+  await page.keyboard.press('Enter')
+  
+  // Verify explanation panel updated
+  await expect(page.locator('.explanation-panel')).toContainText('Call Stack')
+})
+```
+
+---
+
+## Mocking Guidelines
+
+### Mock External Dependencies
+```typescript
+// ✅ Good - Mock Konva for unit tests
+vi.mock('konva', () => ({
+  Stage: vi.fn(() => ({
+    add: vi.fn(),
+    destroy: vi.fn()
+  })),
+  Layer: vi.fn(() => ({
+    add: vi.fn(),
+    draw: vi.fn()
+  }))
+}))
+
+// ❌ Bad - Testing Konva internals
+it('should call Konva.Stage constructor', () => {
+  expect(Konva.Stage).toHaveBeenCalled()
+})
+```
+
+### Use Test Fixtures
+```typescript
+// tests/fixtures/visualizationSpecs.ts
+export const mockJsRuntimeSpec = {
+  id: 'js-runtime',
+  title: 'JavaScript Runtime',
+  scene: {
+    layout: { type: 'grid', config: {} },
+    layers: [/* ... */]
+  }
+}
+
+// In tests
+import { mockJsRuntimeSpec } from '~/tests/fixtures/visualizationSpecs'
+
+it('should parse spec correctly', () => {
+  const scene = new SceneGraph(mockJsRuntimeSpec.scene)
+  expect(scene.getAllNodes()).toHaveLength(7)
+})
+```
+
+---
+
+## Common Testing Patterns
+
+### Testing Async Code
+```typescript
+// ✅ Good - Use async/await
+it('should load spec asynchronously', async () => {
+  const spec = await loadVisualization('js-runtime')
+  expect(spec).toBeDefined()
+})
+
+// ❌ Bad - Missing await
+it('should load spec', () => {
+  const spec = loadVisualization('js-runtime') // Returns Promise
+  expect(spec).toBeDefined() // Fails!
+})
+```
+
+### Testing Error Cases
+```typescript
+it('should throw error for invalid visualization id', async () => {
+  await expect(
+    loadVisualization('nonexistent')
+  ).rejects.toThrow('Visualization \'nonexistent\' not found')
+})
+```
+
+### Testing Vue Composables
+```typescript
+import { useVisualization } from '~/composables/useVisualization'
+
+it('should manage selected node state', () => {
+  const { selectedNodeId, selectNode } = useVisualization('js-runtime')
+  
+  expect(selectedNodeId.value).toBeNull()
+  
+  selectNode('node-1')
+  
+  expect(selectedNodeId.value).toBe('node-1')
+})
+```
+
+---
+
+## Code Quality Checks
+
+### Before Committing Tests
+- ✅ Tests are isolated (no shared state between tests)
+- ✅ Tests are deterministic (same input = same output)
+- ✅ Tests are fast (<100ms per unit test)
+- ✅ Test names clearly describe behavior
+- ✅ Tests follow AAA pattern
+- ✅ No commented-out tests or skipped tests (unless documented)
+- ✅ Mocks are cleaned up after each test
+
+### Red Flags (Avoid)
+- ❌ Tests that require specific execution order
+- ❌ Tests with `setTimeout` or arbitrary delays
+- ❌ Tests that depend on external services (use mocks)
+- ❌ Tests that modify global state without cleanup
+- ❌ Tests with 10+ assertions (split them up)
+- ❌ Tests that test implementation details
+
+---
+
+## Summary
+
+**TDD Workflow:**
+1. Write failing test (RED) 🔴
+2. Implement minimal code (GREEN) 🟢
+3. Refactor and improve (BLUE) 🔵
+4. **Never run tests automatically** - wait for user
+
+**Quality over Quantity:**
+- Test behavior, not implementation
+- Focus on critical paths and edge cases
+- Keep tests simple and readable
+- Mock external dependencies
+
+**Communication:**
+- Always tell user which test file was created
+- Provide exact command to run tests
+- Wait for user feedback before fixing
+- Explain test failures clearly when user shares output
+

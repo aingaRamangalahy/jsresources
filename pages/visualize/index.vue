@@ -1,9 +1,9 @@
 <script setup lang="ts">
 const topics = [
   {
-    title: 'Event Loop',
-    slug: 'event-loop',
-    description: 'Understand how JavaScript schedules tasks, microtasks, and the callback queue with interactive animations.',
+    title: 'JavaScript Runtime',
+    slug: 'javascript-runtime',
+    description: 'Understand how JavaScript runtime works',
   },
 ]
 </script>

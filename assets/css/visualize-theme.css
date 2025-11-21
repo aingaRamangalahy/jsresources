@@ -1,0 +1,533 @@
+/* DevResources Visualization Components Theme */
+/* Generic, purpose-agnostic theming system for visualization components */
+
+@layer base {
+  :root {
+    /* ============================================
+       VISUALIZE COLOR VARIANTS (Dark Theme)
+       Each variant has a complete color system
+       ============================================ */
+    
+    /* Variant 1: Emerald */
+    --viz-emerald-border: #10b981;
+    --viz-emerald-bg: rgba(16, 185, 129, 0.08);
+    --viz-emerald-bg-hover: rgba(16, 185, 129, 0.12);
+    --viz-emerald-bg-selected: rgba(16, 185, 129, 0.2);
+    --viz-emerald-item-bg: rgba(16, 185, 129, 0.15);
+    --viz-emerald-item-bg-hover: rgba(16, 185, 129, 0.25);
+    --viz-emerald-text-primary: #6ee7b7;
+    --viz-emerald-text-secondary: #34d399;
+    
+    /* Variant 2: Orange */
+    --viz-orange-border: #f97316;
+    --viz-orange-bg: rgba(249, 115, 22, 0.08);
+    --viz-orange-bg-hover: rgba(249, 115, 22, 0.12);
+    --viz-orange-bg-selected: rgba(249, 115, 22, 0.2);
+    --viz-orange-item-bg: rgba(249, 115, 22, 0.15);
+    --viz-orange-item-bg-hover: rgba(249, 115, 22, 0.25);
+    --viz-orange-text-primary: #fdba74;
+    --viz-orange-text-secondary: #fb923c;
+    
+    /* Variant 3: Rose */
+    --viz-rose-border: #f43f5e;
+    --viz-rose-bg: rgba(244, 63, 94, 0.08);
+    --viz-rose-bg-hover: rgba(244, 63, 94, 0.12);
+    --viz-rose-bg-selected: rgba(244, 63, 94, 0.2);
+    --viz-rose-item-bg: rgba(244, 63, 94, 0.15);
+    --viz-rose-item-bg-hover: rgba(244, 63, 94, 0.25);
+    --viz-rose-text-primary: #fda4af;
+    --viz-rose-text-secondary: #fb7185;
+    
+    /* Variant 4: Violet */
+    --viz-violet-border: #8b5cf6;
+    --viz-violet-bg: rgba(139, 92, 246, 0.08);
+    --viz-violet-bg-hover: rgba(139, 92, 246, 0.12);
+    --viz-violet-bg-selected: rgba(139, 92, 246, 0.2);
+    --viz-violet-item-bg: rgba(139, 92, 246, 0.15);
+    --viz-violet-item-bg-hover: rgba(139, 92, 246, 0.25);
+    --viz-violet-text-primary: #c4b5fd;
+    --viz-violet-text-secondary: #a78bfa;
+    
+    /* Variant 5: Amber */
+    --viz-amber-border: #f59e0b;
+    --viz-amber-bg: rgba(245, 158, 11, 0.08);
+    --viz-amber-bg-hover: rgba(245, 158, 11, 0.12);
+    --viz-amber-bg-selected: rgba(245, 158, 11, 0.2);
+    --viz-amber-item-bg: rgba(245, 158, 11, 0.15);
+    --viz-amber-item-bg-hover: rgba(245, 158, 11, 0.25);
+    --viz-amber-text-primary: #fcd34d;
+    --viz-amber-text-secondary: #fbbf24;
+    
+    /* Variant 6: Pink */
+    --viz-pink-border: #ec4899;
+    --viz-pink-bg: rgba(236, 72, 153, 0.08);
+    --viz-pink-bg-hover: rgba(236, 72, 153, 0.12);
+    --viz-pink-bg-selected: rgba(236, 72, 153, 0.2);
+    --viz-pink-item-bg: rgba(236, 72, 153, 0.15);
+    --viz-pink-item-bg-hover: rgba(236, 72, 153, 0.25);
+    --viz-pink-text-primary: #f9a8d4;
+    --viz-pink-text-secondary: #f472b6;
+    
+    /* Variant 7: Cyan */
+    --viz-cyan-border: #06b6d4;
+    --viz-cyan-bg: rgba(6, 182, 212, 0.08);
+    --viz-cyan-bg-hover: rgba(6, 182, 212, 0.12);
+    --viz-cyan-bg-selected: rgba(6, 182, 212, 0.2);
+    --viz-cyan-item-bg: rgba(6, 182, 212, 0.15);
+    --viz-cyan-item-bg-hover: rgba(6, 182, 212, 0.25);
+    --viz-cyan-text-primary: #67e8f9;
+    --viz-cyan-text-secondary: #22d3ee;
+    
+    /* Variant 8: Blue */
+    --viz-blue-border: #3b82f6;
+    --viz-blue-bg: rgba(59, 130, 246, 0.08);
+    --viz-blue-bg-hover: rgba(59, 130, 246, 0.12);
+    --viz-blue-bg-selected: rgba(59, 130, 246, 0.2);
+    --viz-blue-item-bg: rgba(59, 130, 246, 0.15);
+    --viz-blue-item-bg-hover: rgba(59, 130, 246, 0.25);
+    --viz-blue-text-primary: #93c5fd;
+    --viz-blue-text-secondary: #60a5fa;
+    
+    /* Variant 9: Indigo */
+    --viz-indigo-border: #6366f1;
+    --viz-indigo-bg: rgba(99, 102, 241, 0.08);
+    --viz-indigo-bg-hover: rgba(99, 102, 241, 0.12);
+    --viz-indigo-bg-selected: rgba(99, 102, 241, 0.2);
+    --viz-indigo-item-bg: rgba(99, 102, 241, 0.15);
+    --viz-indigo-item-bg-hover: rgba(99, 102, 241, 0.25);
+    --viz-indigo-text-primary: #a5b4fc;
+    --viz-indigo-text-secondary: #818cf8;
+    
+    /* Variant 10: Teal */
+    --viz-teal-border: #14b8a6;
+    --viz-teal-bg: rgba(20, 184, 166, 0.08);
+    --viz-teal-bg-hover: rgba(20, 184, 166, 0.12);
+    --viz-teal-bg-selected: rgba(20, 184, 166, 0.2);
+    --viz-teal-item-bg: rgba(20, 184, 166, 0.15);
+    --viz-teal-item-bg-hover: rgba(20, 184, 166, 0.25);
+    --viz-teal-text-primary: #5eead4;
+    --viz-teal-text-secondary: #2dd4bf;
+    
+    /* ============================================
+       SHARED VISUALIZE STYLES
+       ============================================ */
+    --viz-border-radius: var(--radius-lg);
+    --viz-border-width: 2px;
+    --viz-transition: var(--transition);
+    --viz-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --viz-shadow-selected: 0 6px 20px rgba(0, 0, 0, 0.4);
+    
+    /* Neutral elements */
+    --viz-empty-text: var(--color-neutral-500);
+    --viz-description-text: var(--color-neutral-400);
+    --viz-code-bg: var(--color-neutral-800);
+    --viz-code-border: var(--color-neutral-700);
+    --viz-code-text: var(--color-neutral-300);
+  }
+}
+
+@layer components {
+  /* ============================================
+     BASE CONTAINER (NO COLOR)
+     ============================================ */
+  .viz-container {
+    @apply border-2 rounded-lg p-3 cursor-pointer transition-all duration-200 relative;
+    background-color: var(--color-neutral-900);
+    border-radius: var(--viz-border-radius);
+    border-width: var(--viz-border-width);
+    transition: var(--viz-transition);
+  }
+  
+  .viz-container:hover {
+    box-shadow: var(--viz-shadow-hover);
+  }
+  
+  .viz-container.selected {
+    box-shadow: var(--viz-shadow-selected);
+  }
+  
+  /* ============================================
+     HEADER ELEMENTS
+     ============================================ */
+  .viz-header {
+    @apply text-center mb-3;
+  }
+  
+  .viz-title {
+    @apply text-base font-semibold;
+  }
+  
+  .viz-description {
+    @apply text-xs mt-1;
+    color: var(--viz-description-text);
+  }
+  
+  .viz-code {
+    @apply text-xs font-mono px-2 py-1 rounded border;
+    background-color: var(--viz-code-bg);
+    border-color: var(--viz-code-border);
+    color: var(--viz-code-text);
+  }
+  
+  /* ============================================
+     ITEM CONTAINERS
+     ============================================ */
+  .viz-items {
+    min-height: 80px;
+  }
+  
+  .viz-items--vertical {
+    @apply space-y-2;
+  }
+  
+  .viz-items--horizontal {
+    @apply flex items-center gap-2 overflow-x-auto;
+  }
+  
+  .viz-items--grid {
+    @apply grid gap-2;
+  }
+  
+  .viz-items--grid-2 {
+    @apply grid grid-cols-2 gap-2;
+  }
+  
+  /* ============================================
+     ITEMS (GENERIC)
+     ============================================ */
+  .viz-item {
+    @apply px-3 py-2 rounded border text-sm text-center transition-colors duration-150;
+    background-color: var(--color-neutral-800);
+  }
+  
+  .viz-item--horizontal {
+    @apply whitespace-nowrap flex-shrink-0;
+  }
+  
+  /* ============================================
+     EMPTY STATE
+     ============================================ */
+  .viz-empty-state {
+    @apply text-center py-8 text-sm italic;
+    color: var(--viz-empty-text);
+  }
+  
+  /* ============================================
+     COLOR VARIANT MODIFIERS
+     Apply these to .viz-container to theme it
+     ============================================ */
+  
+  /* Emerald variant */
+  .viz-variant-emerald {
+    border-color: var(--viz-emerald-border);
+    background-color: var(--viz-emerald-bg);
+  }
+  
+  .viz-variant-emerald:hover {
+    background-color: var(--viz-emerald-bg-hover);
+  }
+  
+  .viz-variant-emerald.selected {
+    background-color: var(--viz-emerald-bg-selected);
+  }
+  
+  .viz-variant-emerald .viz-title {
+    color: var(--viz-emerald-text-primary);
+  }
+  
+  .viz-variant-emerald .viz-item {
+    background-color: var(--viz-emerald-item-bg);
+    border-color: var(--viz-emerald-border);
+    color: var(--viz-emerald-text-secondary);
+  }
+  
+  .viz-variant-emerald .viz-item:hover {
+    background-color: var(--viz-emerald-item-bg-hover);
+  }
+  
+  .viz-variant-emerald .viz-code {
+    border-color: var(--viz-emerald-border);
+  }
+  
+  /* Orange variant */
+  .viz-variant-orange {
+    border-color: var(--viz-orange-border);
+    background-color: var(--viz-orange-bg);
+  }
+  
+  .viz-variant-orange:hover {
+    background-color: var(--viz-orange-bg-hover);
+  }
+  
+  .viz-variant-orange.selected {
+    background-color: var(--viz-orange-bg-selected);
+  }
+  
+  .viz-variant-orange .viz-title {
+    color: var(--viz-orange-text-primary);
+  }
+  
+  .viz-variant-orange .viz-item {
+    background-color: var(--viz-orange-item-bg);
+    border-color: var(--viz-orange-border);
+    color: var(--viz-orange-text-secondary);
+  }
+  
+  .viz-variant-orange .viz-item:hover {
+    background-color: var(--viz-orange-item-bg-hover);
+  }
+  
+  /* Rose variant */
+  .viz-variant-rose {
+    border-color: var(--viz-rose-border);
+    background-color: var(--viz-rose-bg);
+  }
+  
+  .viz-variant-rose:hover {
+    background-color: var(--viz-rose-bg-hover);
+  }
+  
+  .viz-variant-rose.selected {
+    background-color: var(--viz-rose-bg-selected);
+  }
+  
+  .viz-variant-rose .viz-title {
+    color: var(--viz-rose-text-primary);
+  }
+  
+  .viz-variant-rose .viz-item {
+    background-color: var(--viz-rose-item-bg);
+    border-color: var(--viz-rose-border);
+    color: var(--viz-rose-text-secondary);
+  }
+  
+  .viz-variant-rose .viz-item:hover {
+    background-color: var(--viz-rose-item-bg-hover);
+  }
+  
+  /* Violet variant */
+  .viz-variant-violet {
+    border-color: var(--viz-violet-border);
+    background-color: var(--viz-violet-bg);
+  }
+  
+  .viz-variant-violet:hover {
+    background-color: var(--viz-violet-bg-hover);
+  }
+  
+  .viz-variant-violet.selected {
+    background-color: var(--viz-violet-bg-selected);
+  }
+  
+  .viz-variant-violet .viz-title {
+    color: var(--viz-violet-text-primary);
+  }
+  
+  .viz-variant-violet .viz-item {
+    background-color: var(--viz-violet-item-bg);
+    border-color: var(--viz-violet-border);
+    color: var(--viz-violet-text-secondary);
+  }
+  
+  .viz-variant-violet .viz-item:hover {
+    background-color: var(--viz-violet-item-bg-hover);
+  }
+  
+  .viz-variant-violet .viz-code {
+    border-color: var(--viz-violet-border);
+  }
+  
+  /* Amber variant */
+  .viz-variant-amber {
+    border-color: var(--viz-amber-border);
+    background-color: var(--viz-amber-bg);
+  }
+  
+  .viz-variant-amber:hover {
+    background-color: var(--viz-amber-bg-hover);
+  }
+  
+  .viz-variant-amber.selected {
+    background-color: var(--viz-amber-bg-selected);
+  }
+  
+  .viz-variant-amber .viz-title {
+    color: var(--viz-amber-text-primary);
+  }
+  
+  .viz-variant-amber .viz-item {
+    background-color: var(--viz-amber-item-bg);
+    border-color: var(--viz-amber-border);
+    color: var(--viz-amber-text-secondary);
+  }
+  
+  .viz-variant-amber .viz-item:hover {
+    background-color: var(--viz-amber-item-bg-hover);
+  }
+  
+  /* Pink variant */
+  .viz-variant-pink {
+    border-color: var(--viz-pink-border);
+    background-color: var(--viz-pink-bg);
+  }
+  
+  .viz-variant-pink:hover {
+    background-color: var(--viz-pink-bg-hover);
+  }
+  
+  .viz-variant-pink.selected {
+    background-color: var(--viz-pink-bg-selected);
+  }
+  
+  .viz-variant-pink .viz-title {
+    color: var(--viz-pink-text-primary);
+  }
+  
+  .viz-variant-pink .viz-item {
+    background-color: var(--viz-pink-item-bg);
+    border-color: var(--viz-pink-border);
+    color: var(--viz-pink-text-secondary);
+  }
+  
+  .viz-variant-pink .viz-item:hover {
+    background-color: var(--viz-pink-item-bg-hover);
+  }
+  
+  /* Cyan variant */
+  .viz-variant-cyan {
+    border-color: var(--viz-cyan-border);
+    background-color: var(--viz-cyan-bg);
+  }
+  
+  .viz-variant-cyan:hover {
+    background-color: var(--viz-cyan-bg-hover);
+  }
+  
+  .viz-variant-cyan.selected {
+    background-color: var(--viz-cyan-bg-selected);
+  }
+  
+  .viz-variant-cyan .viz-title {
+    color: var(--viz-cyan-text-primary);
+  }
+  
+  .viz-variant-cyan .viz-item {
+    background-color: var(--viz-cyan-item-bg);
+    border-color: var(--viz-cyan-border);
+    color: var(--viz-cyan-text-secondary);
+  }
+  
+  .viz-variant-cyan .viz-item:hover {
+    background-color: var(--viz-cyan-item-bg-hover);
+  }
+  
+  /* Blue variant */
+  .viz-variant-blue {
+    border-color: var(--viz-blue-border);
+    background-color: var(--viz-blue-bg);
+  }
+  
+  .viz-variant-blue:hover {
+    background-color: var(--viz-blue-bg-hover);
+  }
+  
+  .viz-variant-blue.selected {
+    background-color: var(--viz-blue-bg-selected);
+  }
+  
+  .viz-variant-blue .viz-title {
+    color: var(--viz-blue-text-primary);
+  }
+  
+  .viz-variant-blue .viz-item {
+    background-color: var(--viz-blue-item-bg);
+    border-color: var(--viz-blue-border);
+    color: var(--viz-blue-text-secondary);
+  }
+  
+  .viz-variant-blue .viz-item:hover {
+    background-color: var(--viz-blue-item-bg-hover);
+  }
+  
+  /* Indigo variant */
+  .viz-variant-indigo {
+    border-color: var(--viz-indigo-border);
+    background-color: var(--viz-indigo-bg);
+  }
+  
+  .viz-variant-indigo:hover {
+    background-color: var(--viz-indigo-bg-hover);
+  }
+  
+  .viz-variant-indigo.selected {
+    background-color: var(--viz-indigo-bg-selected);
+  }
+  
+  .viz-variant-indigo .viz-title {
+    color: var(--viz-indigo-text-primary);
+  }
+  
+  .viz-variant-indigo .viz-item {
+    background-color: var(--viz-indigo-item-bg);
+    border-color: var(--viz-indigo-border);
+    color: var(--viz-indigo-text-secondary);
+  }
+  
+  .viz-variant-indigo .viz-item:hover {
+    background-color: var(--viz-indigo-item-bg-hover);
+  }
+  
+  /* Teal variant */
+  .viz-variant-teal {
+    border-color: var(--viz-teal-border);
+    background-color: var(--viz-teal-bg);
+  }
+  
+  .viz-variant-teal:hover {
+    background-color: var(--viz-teal-bg-hover);
+  }
+  
+  .viz-variant-teal.selected {
+    background-color: var(--viz-teal-bg-selected);
+  }
+  
+  .viz-variant-teal .viz-title {
+    color: var(--viz-teal-text-primary);
+  }
+  
+  .viz-variant-teal .viz-item {
+    background-color: var(--viz-teal-item-bg);
+    border-color: var(--viz-teal-border);
+    color: var(--viz-teal-text-secondary);
+  }
+  
+  .viz-variant-teal .viz-item:hover {
+    background-color: var(--viz-teal-item-bg-hover);
+  }
+  
+  /* ============================================
+     UTILITY MODIFIERS
+     ============================================ */
+  
+  /* Emphasis for active/next items */
+  .viz-item--emphasized {
+    @apply border-2 font-medium;
+    opacity: 1;
+  }
+  
+  /* De-emphasized items */
+  .viz-item--muted {
+    opacity: 0.6;
+  }
+  
+  /* Animated items */
+  .viz-item--animated {
+    animation: viz-pulse 2s ease-in-out infinite;
+  }
+  
+  @keyframes viz-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+}
+

@@ -25,6 +25,11 @@ Thumbs.db
 # Local
 .env.local
 
+# Testing
+coverage/
+test-results/
+playwright-report/
+.nyc_output
 
 ai_memory
 
