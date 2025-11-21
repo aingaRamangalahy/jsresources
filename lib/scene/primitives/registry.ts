@@ -2,92 +2,24 @@ import Konva from 'konva'
 import type { PrimitiveType } from '~/types/visualization/spec'
 import type { SceneNode } from '../core/SceneNode'
 
-type PrimitiveFactory = (node: SceneNode) => Konva.Group
+import { createBoxPrimitive } from './BoxPrimitive'
+import { createStackPrimitive } from './StackPrimitive'
+import { createQueuePrimitive } from './QueuePrimitive'
+import { createHeapPrimitive } from './HeapPrimitive'
+import { createTimelinePrimitive } from './TimelinePrimitive'
+import { createArrowPrimitive } from './ArrowPrimitive'
+import { createLabelPrimitive } from './LabelPrimitive'
+import { createGroupPrimitive } from './GroupPrimitive'
 
-// Simple placeholder implementations for primitives
-// These will be fully implemented in Phase 2
-function createBoxPrimitive(node: SceneNode): Konva.Group {
-  const group = new Konva.Group({
-    x: node.position.x,
-    y: node.position.y,
-    draggable: node.draggable,
-  })
-  
-  // Background rectangle
-  const rect = new Konva.Rect({
-    width: node.size.width,
-    height: node.size.height,
-    fill: node.style.background || '#ffffff',
-    stroke: node.style.border || '#000000',
-    strokeWidth: node.style.borderWidth || 2,
-    cornerRadius: node.style.borderRadius || 8,
-  })
-  
-  group.add(rect)
-  
-  // Title text
-  if (node.content.title) {
-    const title = new Konva.Text({
-      text: node.content.title,
-      x: 16,
-      y: 16,
-      width: node.size.width - 32,
-      fontSize: 16,
-      fontFamily: 'Inter, sans-serif',
-      fontStyle: 'bold',
-      fill: node.style.text || '#1e293b',
-    })
-    group.add(title)
-  }
-  
-  return group
-}
+/**
+ * Type for primitive factory functions
+ * Each factory takes a SceneNode and returns a Konva.Group
+ */
+export type PrimitiveFactory = (node: SceneNode) => Konva.Group
 
-function createStackPrimitive(node: SceneNode): Konva.Group {
-  // Placeholder - will be fully implemented in Phase 2
-  return createBoxPrimitive(node)
-}
-
-function createQueuePrimitive(node: SceneNode): Konva.Group {
-  // Placeholder - will be fully implemented in Phase 2
-  return createBoxPrimitive(node)
-}
-
-function createHeapPrimitive(node: SceneNode): Konva.Group {
-  // Placeholder - will be fully implemented in Phase 2
-  return createBoxPrimitive(node)
-}
-
-function createTimelinePrimitive(node: SceneNode): Konva.Group {
-  // Placeholder - will be fully implemented in Phase 2
-  return createBoxPrimitive(node)
-}
-
-function createArrowPrimitive(node: SceneNode): Konva.Group {
-  // Placeholder - will be fully implemented in Phase 2
-  return createBoxPrimitive(node)
-}
-
-function createLabelPrimitive(node: SceneNode): Konva.Group {
-  // Placeholder - will be fully implemented in Phase 2
-  return createBoxPrimitive(node)
-}
-
-function createGroupPrimitive(node: SceneNode): Konva.Group {
-  // Placeholder - will be fully implemented in Phase 2
-  return createBoxPrimitive(node)
-}
-
-function createCodeBlockPrimitive(node: SceneNode): Konva.Group {
-  // Placeholder - will be fully implemented in Phase 2
-  return createBoxPrimitive(node)
-}
-
-function createCustomPrimitive(node: SceneNode): Konva.Group {
-  // Placeholder - will be fully implemented in Phase 2
-  return createBoxPrimitive(node)
-}
-
+/**
+ * Registry mapping primitive types to their factory functions
+ */
 const primitiveRegistry = new Map<PrimitiveType, PrimitiveFactory>([
   ['box', createBoxPrimitive],
   ['stack', createStackPrimitive],
@@ -97,26 +29,52 @@ const primitiveRegistry = new Map<PrimitiveType, PrimitiveFactory>([
   ['arrow', createArrowPrimitive],
   ['label', createLabelPrimitive],
   ['group', createGroupPrimitive],
-  ['code-block', createCodeBlockPrimitive],
-  ['custom', createCustomPrimitive],
 ])
 
+/**
+ * Creates a primitive Konva.Group for a given SceneNode
+ * Falls back to 'box' primitive if the requested type is not found
+ * 
+ * @param node - The SceneNode to create a primitive for
+ * @returns Konva.Group representing the primitive
+ */
 export function createPrimitive(node: SceneNode): Konva.Group {
   const factory = primitiveRegistry.get(node.type as PrimitiveType)
   
   if (!factory) {
-    console.warn(`Primitive type '${node.type}' not found, falling back to 'box'`)
+    console.warn(`Primitive type '${node.type}' not found in registry, falling back to 'box'`)
     return primitiveRegistry.get('box')!(node)
   }
   
   return factory(node)
 }
 
+/**
+ * Registers a custom primitive factory
+ * Useful for adding project-specific primitives
+ * 
+ * @param type - The primitive type identifier
+ * @param factory - Factory function that creates the primitive
+ */
 export function registerPrimitive(type: string, factory: PrimitiveFactory): void {
   primitiveRegistry.set(type as PrimitiveType, factory)
 }
 
+/**
+ * Lists all registered primitive types
+ * 
+ * @returns Array of primitive type identifiers
+ */
 export function listPrimitives(): PrimitiveType[] {
   return Array.from(primitiveRegistry.keys())
 }
 
+/**
+ * Checks if a primitive type is registered
+ * 
+ * @param type - The primitive type to check
+ * @returns True if the primitive is registered
+ */
+export function hasPrimitive(type: string): boolean {
+  return primitiveRegistry.has(type as PrimitiveType)
+}
