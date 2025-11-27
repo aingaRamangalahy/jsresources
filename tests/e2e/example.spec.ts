@@ -27,7 +27,7 @@ test.describe('Homepage', () => {
 test.describe('Visualization Page', () => {
   test.skip('should load visualization page (implement after Phase 3)', async ({ page }) => {
     // This test is skipped until we implement the visualization canvas component
-    await page.goto('/visualize/js-runtime')
+    await page.goto('/visualize/event-loop')
     
     // Check that canvas exists
     const canvas = page.locator('canvas')

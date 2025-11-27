@@ -3,6 +3,7 @@ import type { SceneDefinition, Node as NodeSpec } from '~/types/visualization/sp
 import { SceneLayer } from './SceneLayer'
 import { SceneNode } from './SceneNode'
 import { SceneEdge } from './SceneEdge'
+import { LayoutEngine } from '../builders/LayoutEngine'
 
 export class SceneGraph {
   public stage: Konva.Stage
@@ -26,6 +27,9 @@ export class SceneGraph {
   }
   
   private buildFromDefinition(definition: SceneDefinition): void {
+    // Apply layout to get node positions
+    const layoutResult = LayoutEngine.applyLayout(definition)
+    
     // Create layers
     for (const layerDef of definition.layers) {
       const layer = new SceneLayer(layerDef, this.stage)
@@ -33,12 +37,26 @@ export class SceneGraph {
       
       // Create nodes in this layer
       for (const nodeDef of layerDef.nodes) {
-        const node = SceneNode.fromSpec(nodeDef, layer)
+        // Apply layout position if auto
+        const layoutInfo = layoutResult.nodes.get(nodeDef.id)
+        const nodeDefWithPosition = {
+          ...nodeDef,
+          position: nodeDef.position === 'auto' && layoutInfo 
+            ? { x: layoutInfo.x, y: layoutInfo.y }
+            : nodeDef.position,
+          size: nodeDef.size === 'auto' && layoutInfo
+            ? { width: layoutInfo.width, height: layoutInfo.height }
+            : nodeDef.size
+        }
+        
+        const node = SceneNode.fromSpec(nodeDefWithPosition, layer)
         this.nodes.set(nodeDef.id, node)
         layer.addNode(node)
       }
       
-      // Create edges in this layer
+      // Create edges in this layer (TEMPORARILY DISABLED for layout testing)
+      // TODO: Re-enable after block layout is finalized
+      /*
       for (const edgeDef of layerDef.edges) {
         const fromNode = this.nodes.get(edgeDef.from)
         const toNode = this.nodes.get(edgeDef.to)
@@ -49,6 +67,7 @@ export class SceneGraph {
           layer.addEdge(edge)
         }
       }
+      */
     }
   }
   

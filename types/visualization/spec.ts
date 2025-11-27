@@ -25,7 +25,7 @@ export interface SceneDefinition {
   // Layout strategy
   layout: {
     type: 'grid' | 'flow' | 'tree' | 'force-directed' | 'custom'
-    config: Record<string, any>
+    config: GridLayoutConfig | Record<string, any>
   }
   
   // Layers (like Photoshop layers)
@@ -33,6 +33,24 @@ export interface SceneDefinition {
   
   // Global styles
   theme: ThemeConfig
+}
+
+// Grid layout configuration
+export interface GridLayoutConfig {
+  columns: number                   // Number of columns in the grid
+  rows?: number | 'auto'            // Number of rows ('auto' = grows as needed)
+  gap: number                       // Gap between cells in pixels
+  rowGap?: number                   // Optional separate row gap (overrides gap)
+  columnGap?: number                // Optional separate column gap (overrides gap)
+  padding?: number                  // Padding around the grid
+  columnWidth?: number              // Base width per column (default: 340)
+  rowHeight?: number | 'auto'       // Base height per row ('auto' = fit content)
+  masonry?: boolean                 // Enable masonry layout (items stack in shortest column)
+  responsive?: {
+    mobile?: { columns: number }
+    tablet?: { columns: number }
+    desktop?: { columns: number }
+  }
 }
 
 export interface Layer {
@@ -69,7 +87,14 @@ export interface Node {
   // Behavior
   interactive: boolean
   selectable: boolean
-  draggable: boolean
+  
+  // Grid layout positioning (CSS Grid-like)
+  layout?: {
+    row?: number                // 0-based row index (auto-placed if not specified)
+    column?: number             // 0-based column index (auto-placed if not specified)
+    rowSpan?: number            // Number of rows this block spans (default: 1)
+    colSpan?: number            // Number of columns this block spans (default: 1)
+  }
   
   // Data binding
   data: Record<string, any>
@@ -105,6 +130,11 @@ export interface NodeStyle {
   borderRadius?: number
   text?: string
   opacity?: number
+  // Extended style properties for label primitive
+  fontSize?: number
+  fontFamily?: string
+  fontStyle?: string
+  align?: string
 }
 
 export interface EdgeStyle {
@@ -162,17 +192,7 @@ export interface RenderingConfig {
     pixelRatio: number | 'auto'  // For high-DPI displays
   }
   
-  // Interaction settings
-  interactions: {
-    enableDrag: boolean
-    enableZoom: boolean
-    enablePan: boolean
-    zoomMin: number
-    zoomMax: number
-  }
-  
   // Performance hints
   complexity: 'low' | 'medium' | 'high'
   nodeCount: number
 }
-

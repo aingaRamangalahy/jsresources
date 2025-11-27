@@ -5,20 +5,31 @@ import type { SceneNode } from '../core/SceneNode'
  * TimelinePrimitive - Step-by-step timeline visualization
  * Used for: Event loop steps, process flows, sequential operations
  * Displays items as numbered steps in a vertical timeline
+ * Dark mode themed
  */
 export function createTimelinePrimitive(node: SceneNode): Konva.Group {
   const group = new Konva.Group({
     x: node.position.x,
     y: node.position.y,
-    draggable: node.draggable,
   })
+  
+  // Dark mode colors - Indigo theme for timeline
+  const bgColor = node.style.background || '#1a1a2e'
+  const borderColor = node.style.border || '#6366f1'
+  const textColor = node.style.text || '#818cf8'
+  const descColor = '#a3a3a3'
+  const stepBgColor = '#1e1e3f'
+  const stepCircleColor = '#6366f1'
+  const stepCircleBorder = '#818cf8'
+  const stepTextColor = '#c7d2fe'
+  const lineColor = '#818cf8'
   
   // Container box
   const container = new Konva.Rect({
     width: node.size.width,
     height: node.size.height,
-    fill: node.style.background || '#eef2ff',
-    stroke: node.style.border || '#4f46e5',
+    fill: bgColor,
+    stroke: borderColor,
     strokeWidth: node.style.borderWidth || 2,
     cornerRadius: node.style.borderRadius || 8,
   })
@@ -34,7 +45,7 @@ export function createTimelinePrimitive(node: SceneNode): Konva.Group {
       fontSize: 16,
       fontFamily: 'Inter, sans-serif',
       fontStyle: 'bold',
-      fill: node.style.text || '#4338ca',
+      fill: textColor,
     })
     group.add(title)
   }
@@ -48,7 +59,7 @@ export function createTimelinePrimitive(node: SceneNode): Konva.Group {
       width: node.size.width - 32,
       fontSize: 11,
       fontFamily: 'monospace',
-      fill: '#64748b',
+      fill: descColor,
     })
     group.add(desc)
   }
@@ -65,8 +76,8 @@ export function createTimelinePrimitive(node: SceneNode): Konva.Group {
         x: 16,
         y: 16,
         radius: 14,
-        fill: '#4f46e5',
-        stroke: '#6366f1',
+        fill: stepCircleColor,
+        stroke: stepCircleBorder,
         strokeWidth: 2,
       })
       
@@ -88,7 +99,7 @@ export function createTimelinePrimitive(node: SceneNode): Konva.Group {
         y: 0,
         width: node.size.width - 72,
         height: 32,
-        fill: '#e0e7ff',
+        fill: stepBgColor,
         cornerRadius: 4,
       })
       
@@ -99,7 +110,7 @@ export function createTimelinePrimitive(node: SceneNode): Konva.Group {
         width: node.size.width - 88,
         fontSize: 12,
         fontFamily: 'Inter, sans-serif',
-        fill: '#312e81',
+        fill: stepTextColor,
       })
       
       itemGroup.add(stepBg, circle, stepNumber, stepText)
@@ -109,7 +120,7 @@ export function createTimelinePrimitive(node: SceneNode): Konva.Group {
       if (index < node.content.items.length - 1) {
         const line = new Konva.Line({
           points: [32, yOffset + 32, 32, yOffset + 44],
-          stroke: '#6366f1',
+          stroke: lineColor,
           strokeWidth: 2,
           dash: [4, 4],
         })
@@ -122,4 +133,3 @@ export function createTimelinePrimitive(node: SceneNode): Konva.Group {
   
   return group
 }
-

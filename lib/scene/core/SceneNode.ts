@@ -12,7 +12,6 @@ export class SceneNode {
   public content!: Record<string, any>
   public interactive!: boolean
   public selectable!: boolean
-  public draggable!: boolean
   public data!: Record<string, any>
   public layer!: SceneLayer
   public konvaGroup!: Konva.Group
@@ -58,10 +57,6 @@ export class SceneNode {
         }
       })
     }
-    
-    if (this.draggable) {
-      this.konvaGroup.draggable(true)
-    }
   }
   
   update(updates: Partial<NodeSpec>): void {
@@ -90,7 +85,7 @@ export class SceneNode {
       this.selected = true
       // Visual feedback
       this.konvaGroup.opacity(1)
-      this.konvaGroup.scale({ x: 1.05, y: 1.05 })
+      this.konvaGroup.scale({ x: 1.02, y: 1.02 })
       this.layer.konvaLayer.batchDraw()
     }
   }
@@ -105,8 +100,7 @@ export class SceneNode {
   hover(): void {
     this.hovered = true
     if (!this.selected) {
-      this.konvaGroup.opacity(0.9)
-      this.konvaGroup.scale({ x: 1.02, y: 1.02 })
+      this.konvaGroup.opacity(0.95)
       this.layer.konvaLayer.batchDraw()
     }
   }
@@ -115,9 +109,7 @@ export class SceneNode {
     this.hovered = false
     if (!this.selected) {
       this.konvaGroup.opacity(1)
-      this.konvaGroup.scale({ x: 1, y: 1 })
       this.layer.konvaLayer.batchDraw()
     }
   }
 }
-

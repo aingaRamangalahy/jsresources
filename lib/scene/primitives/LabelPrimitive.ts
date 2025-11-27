@@ -5,13 +5,17 @@ import type { SceneNode } from '../core/SceneNode'
  * LabelPrimitive - Text annotation/label
  * Used for: Annotations, captions, standalone text
  * Simple text display with optional background
+ * Dark mode themed
  */
 export function createLabelPrimitive(node: SceneNode): Konva.Group {
   const group = new Konva.Group({
     x: node.position.x,
     y: node.position.y,
-    draggable: node.draggable,
   })
+  
+  // Dark mode colors
+  const textColor = node.style.text || '#fafafa'
+  const descColor = '#a3a3a3'
   
   // Optional background
   if (node.style.background) {
@@ -36,7 +40,7 @@ export function createLabelPrimitive(node: SceneNode): Konva.Group {
       fontSize: node.style.fontSize || 14,
       fontFamily: node.style.fontFamily || 'Inter, sans-serif',
       fontStyle: node.style.fontStyle || 'normal',
-      fill: node.style.text || '#1e293b',
+      fill: textColor,
       align: node.style.align || 'left',
       wrap: 'word',
     })
@@ -52,7 +56,7 @@ export function createLabelPrimitive(node: SceneNode): Konva.Group {
       width: node.size.width - (node.style.background ? 24 : 0),
       fontSize: (node.style.fontSize || 14) - 2,
       fontFamily: node.style.fontFamily || 'Inter, sans-serif',
-      fill: '#64748b',
+      fill: descColor,
       align: node.style.align || 'left',
       wrap: 'word',
     })
@@ -61,4 +65,3 @@ export function createLabelPrimitive(node: SceneNode): Konva.Group {
   
   return group
 }
-

@@ -6,11 +6,11 @@ import { flushPromises } from '@vue/test-utils'
 // Mock the registry
 vi.mock('~/data/visualizations/registry', () => ({
   loadVisualization: vi.fn(async (id: string) => {
-    if (id === 'js-runtime') {
+    if (id === 'event-loop') {
       return {
-        id: 'js-runtime',
+        id: 'event-loop',
         version: '2.0.0',
-        title: 'JavaScript Runtime',
+        title: 'Event Loop',
         description: 'Test description',
         tags: ['javascript', 'runtime'],
         scene: {
@@ -69,7 +69,7 @@ describe('useVisualization', () => {
   describe('initialization', () => {
     it('should load visualization spec on mount', async () => {
       // Arrange & Act
-      const { spec, isLoading } = useVisualization('js-runtime')
+      const { spec, isLoading } = useVisualization('event-loop')
       
       // Initially loading
       expect(isLoading.value).toBe(true)
@@ -81,7 +81,7 @@ describe('useVisualization', () => {
       // Assert
       expect(isLoading.value).toBe(false)
       expect(spec.value).toBeDefined()
-      expect(spec.value?.id).toBe('js-runtime')
+      expect(spec.value?.id).toBe('event-loop')
       expect(spec.value?.title).toBe('JavaScript Runtime')
     })
 
@@ -100,7 +100,7 @@ describe('useVisualization', () => {
 
     it('should start with no selected node', async () => {
       // Arrange & Act
-      const { selectedNodeId } = useVisualization('js-runtime')
+      const { selectedNodeId } = useVisualization('event-loop')
       
       await flushPromises()
       
@@ -112,7 +112,7 @@ describe('useVisualization', () => {
   describe('selectNode', () => {
     it('should update selectedNodeId when node is selected', async () => {
       // Arrange
-      const { selectedNodeId, selectNode } = useVisualization('js-runtime')
+      const { selectedNodeId, selectNode } = useVisualization('event-loop')
       await flushPromises()
       
       // Act
@@ -124,7 +124,7 @@ describe('useVisualization', () => {
 
     it('should update explanation state when node is selected', async () => {
       // Arrange
-      const { explanationState, selectNode } = useVisualization('js-runtime')
+      const { explanationState, selectNode } = useVisualization('event-loop')
       await flushPromises()
       
       // Act
@@ -141,7 +141,7 @@ describe('useVisualization', () => {
   describe('deselectNode', () => {
     it('should clear selectedNodeId when node is deselected', async () => {
       // Arrange
-      const { selectedNodeId, selectNode, deselectNode } = useVisualization('js-runtime')
+      const { selectedNodeId, selectNode, deselectNode } = useVisualization('event-loop')
       await flushPromises()
       selectNode('node-1')
       
@@ -154,7 +154,7 @@ describe('useVisualization', () => {
 
     it('should show global explanation when node is deselected', async () => {
       // Arrange
-      const { explanationState, selectNode, deselectNode } = useVisualization('js-runtime')
+      const { explanationState, selectNode, deselectNode } = useVisualization('event-loop')
       await flushPromises()
       selectNode('node-1')
       
@@ -171,7 +171,7 @@ describe('useVisualization', () => {
   describe('explanationState', () => {
     it('should show global explanation by default', async () => {
       // Arrange & Act
-      const { explanationState } = useVisualization('js-runtime')
+      const { explanationState } = useVisualization('event-loop')
       await flushPromises()
       
       // Assert
@@ -183,7 +183,7 @@ describe('useVisualization', () => {
 
     it('should fallback to global when selected node has no explanation', async () => {
       // Arrange
-      const { explanationState, selectNode } = useVisualization('js-runtime')
+      const { explanationState, selectNode } = useVisualization('event-loop')
       await flushPromises()
       
       // Act - select node that doesn't exist in explanations
@@ -198,7 +198,7 @@ describe('useVisualization', () => {
   describe('isNodeSelected', () => {
     it('should return true for selected node', async () => {
       // Arrange
-      const { isNodeSelected, selectNode } = useVisualization('js-runtime')
+      const { isNodeSelected, selectNode } = useVisualization('event-loop')
       await flushPromises()
       
       // Act
@@ -211,7 +211,7 @@ describe('useVisualization', () => {
 
     it('should return false when no node is selected', async () => {
       // Arrange
-      const { isNodeSelected } = useVisualization('js-runtime')
+      const { isNodeSelected } = useVisualization('event-loop')
       await flushPromises()
       
       // Assert
@@ -222,7 +222,7 @@ describe('useVisualization', () => {
   describe('showGlobalExplanation', () => {
     it('should deselect node and show global explanation', async () => {
       // Arrange
-      const { selectedNodeId, explanationState, selectNode, showGlobalExplanation } = useVisualization('js-runtime')
+      const { selectedNodeId, explanationState, selectNode, showGlobalExplanation } = useVisualization('event-loop')
       await flushPromises()
       selectNode('node-1')
       
@@ -238,7 +238,7 @@ describe('useVisualization', () => {
   describe('load method', () => {
     it('should allow manual reload of spec', async () => {
       // Arrange
-      const { spec, load } = useVisualization('js-runtime')
+      const { spec, load } = useVisualization('event-loop')
       await flushPromises()
       expect(spec.value).toBeDefined()
       
@@ -247,7 +247,7 @@ describe('useVisualization', () => {
       
       // Assert
       expect(spec.value).toBeDefined()
-      expect(spec.value?.id).toBe('js-runtime')
+      expect(spec.value?.id).toBe('event-loop')
     })
   })
 })

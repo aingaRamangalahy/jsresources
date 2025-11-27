@@ -6,19 +6,23 @@ import type { SceneNode } from '../core/SceneNode'
  * Used for: Data flow, relationships, process connections
  * Note: This is a simplified version - actual arrows between nodes
  * are handled by SceneEdge. This is for standalone arrow shapes.
+ * Dark mode themed
  */
 export function createArrowPrimitive(node: SceneNode): Konva.Group {
   const group = new Konva.Group({
     x: node.position.x,
     y: node.position.y,
-    draggable: node.draggable,
   })
+  
+  // Dark mode colors
+  const arrowColor = node.style.border || '#737373'
+  const labelColor = '#a3a3a3'
   
   // Get arrow configuration from node data
   const config = {
     direction: node.data?.direction || 'right', // 'right', 'left', 'down', 'up'
     length: node.data?.length || node.size.width || 100,
-    color: node.style.border || '#64748b',
+    color: arrowColor,
     strokeWidth: node.style.borderWidth || 2,
     animated: node.data?.animated || false,
   }
@@ -69,7 +73,7 @@ export function createArrowPrimitive(node: SceneNode): Konva.Group {
       align: 'center',
       fontSize: 11,
       fontFamily: 'Inter, sans-serif',
-      fill: '#64748b',
+      fill: labelColor,
     })
     
     group.add(label)
@@ -87,4 +91,3 @@ export function createArrowPrimitive(node: SceneNode): Konva.Group {
   
   return group
 }
-

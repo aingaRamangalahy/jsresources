@@ -5,20 +5,29 @@ import type { SceneNode } from '../core/SceneNode'
  * StackPrimitive - LIFO (Last In, First Out) stack visualization
  * Used for: Call stack, execution context, undo/redo history
  * Items are rendered from bottom to top
+ * Dark mode themed
  */
 export function createStackPrimitive(node: SceneNode): Konva.Group {
   const group = new Konva.Group({
     x: node.position.x,
     y: node.position.y,
-    draggable: node.draggable,
   })
+  
+  // Dark mode colors - Green theme for stack
+  const bgColor = node.style.background || '#1a1f1a'
+  const borderColor = node.style.border || '#22c55e'
+  const textColor = node.style.text || '#4ade80'
+  const descColor = '#a3a3a3'
+  const itemBgColor = '#1f2b1f'
+  const itemBorderColor = '#22c55e'
+  const itemTextColor = '#86efac'
   
   // Container box
   const container = new Konva.Rect({
     width: node.size.width,
     height: node.size.height,
-    fill: node.style.background || '#ffffff',
-    stroke: node.style.border || '#16a34a',
+    fill: bgColor,
+    stroke: borderColor,
     strokeWidth: node.style.borderWidth || 2,
     cornerRadius: node.style.borderRadius || 8,
   })
@@ -34,7 +43,7 @@ export function createStackPrimitive(node: SceneNode): Konva.Group {
       fontSize: 16,
       fontFamily: 'Inter, sans-serif',
       fontStyle: 'bold',
-      fill: node.style.text || '#15803d',
+      fill: textColor,
     })
     group.add(title)
   }
@@ -47,7 +56,7 @@ export function createStackPrimitive(node: SceneNode): Konva.Group {
       y: 45,
       fontSize: 12,
       fontFamily: 'Inter, sans-serif',
-      fill: '#64748b',
+      fill: descColor,
     })
     group.add(desc)
   }
@@ -66,14 +75,14 @@ export function createStackPrimitive(node: SceneNode): Konva.Group {
       const itemBg = new Konva.Rect({
         width: node.size.width - 32,
         height: 40,
-        fill: '#f0fdf4',
+        fill: itemBgColor,
         cornerRadius: 4,
       })
       
       const leftBorder = new Konva.Rect({
         width: 4,
         height: 40,
-        fill: '#16a34a',
+        fill: itemBorderColor,
         cornerRadius: [4, 0, 0, 4],
       })
       
@@ -84,7 +93,7 @@ export function createStackPrimitive(node: SceneNode): Konva.Group {
         fontSize: 14,
         fontFamily: 'monospace',
         fontStyle: 'bold',
-        fill: '#15803d',
+        fill: itemTextColor,
       })
       
       itemGroup.add(itemBg, leftBorder, itemText)
@@ -94,4 +103,3 @@ export function createStackPrimitive(node: SceneNode): Konva.Group {
   
   return group
 }
-

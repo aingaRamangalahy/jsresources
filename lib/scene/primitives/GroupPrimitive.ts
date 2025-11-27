@@ -5,20 +5,25 @@ import type { SceneNode } from '../core/SceneNode'
  * GroupPrimitive - Container for grouping other components
  * Used for: JS Engine (contains Call Stack + Memory Heap), logical groupings
  * Displays a bordered container with title and optional description
+ * Dark mode themed
  */
 export function createGroupPrimitive(node: SceneNode): Konva.Group {
   const group = new Konva.Group({
     x: node.position.x,
     y: node.position.y,
-    draggable: node.draggable,
   })
+  
+  // Dark mode colors - Blue theme for groups
+  const bgColor = node.style.background || 'transparent'
+  const borderColor = node.style.border || '#3b82f6'
+  const descColor = '#a3a3a3'
   
   // Container box with dashed border to indicate it's a grouping
   const container = new Konva.Rect({
     width: node.size.width,
     height: node.size.height,
-    fill: node.style.background || 'transparent',
-    stroke: node.style.border || '#94a3b8',
+    fill: bgColor,
+    stroke: borderColor,
     strokeWidth: node.style.borderWidth || 2,
     cornerRadius: node.style.borderRadius || 8,
     dash: [10, 5], // Dashed border to distinguish from regular boxes
@@ -33,7 +38,7 @@ export function createGroupPrimitive(node: SceneNode): Konva.Group {
       y: -12,
       width: node.content.title.length * 8 + 16,
       height: 24,
-      fill: node.style.border || '#94a3b8',
+      fill: borderColor,
       cornerRadius: 4,
     })
     
@@ -60,7 +65,7 @@ export function createGroupPrimitive(node: SceneNode): Konva.Group {
       width: node.size.width - 32,
       fontSize: 11,
       fontFamily: 'Inter, sans-serif',
-      fill: '#64748b',
+      fill: descColor,
       fontStyle: 'italic',
     })
     group.add(desc)
@@ -68,4 +73,3 @@ export function createGroupPrimitive(node: SceneNode): Konva.Group {
   
   return group
 }
-

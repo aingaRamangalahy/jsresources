@@ -5,20 +5,29 @@ import type { SceneNode } from '../core/SceneNode'
  * QueuePrimitive - FIFO (First In, First Out) queue visualization
  * Used for: Callback queue, microtask queue, event queue
  * Items are rendered horizontally from left to right
+ * Dark mode themed
  */
 export function createQueuePrimitive(node: SceneNode): Konva.Group {
   const group = new Konva.Group({
     x: node.position.x,
     y: node.position.y,
-    draggable: node.draggable,
   })
+  
+  // Dark mode colors - Amber theme for queue
+  const bgColor = node.style.background || '#1f1a14'
+  const borderColor = node.style.border || '#f59e0b'
+  const textColor = node.style.text || '#fbbf24'
+  const descColor = '#a3a3a3'
+  const itemBgColor = '#2a2319'
+  const itemBorderColor = '#f59e0b'
+  const itemTextColor = '#fcd34d'
   
   // Container box
   const container = new Konva.Rect({
     width: node.size.width,
     height: node.size.height,
-    fill: node.style.background || '#fffbeb',
-    stroke: node.style.border || '#ca8a04',
+    fill: bgColor,
+    stroke: borderColor,
     strokeWidth: node.style.borderWidth || 2,
     cornerRadius: node.style.borderRadius || 8,
   })
@@ -34,7 +43,7 @@ export function createQueuePrimitive(node: SceneNode): Konva.Group {
       fontSize: 16,
       fontFamily: 'Inter, sans-serif',
       fontStyle: 'bold',
-      fill: node.style.text || '#a16207',
+      fill: textColor,
     })
     group.add(title)
   }
@@ -47,7 +56,7 @@ export function createQueuePrimitive(node: SceneNode): Konva.Group {
       y: 45,
       fontSize: 12,
       fontFamily: 'Inter, sans-serif',
-      fill: '#64748b',
+      fill: descColor,
     })
     group.add(desc)
   }
@@ -66,8 +75,8 @@ export function createQueuePrimitive(node: SceneNode): Konva.Group {
       const itemBg = new Konva.Rect({
         width: itemWidth,
         height: 60,
-        fill: '#fef3c7',
-        stroke: '#ca8a04',
+        fill: itemBgColor,
+        stroke: itemBorderColor,
         strokeWidth: 2,
         cornerRadius: 4,
       })
@@ -81,7 +90,7 @@ export function createQueuePrimitive(node: SceneNode): Konva.Group {
         fontSize: 14,
         fontFamily: 'monospace',
         fontStyle: 'bold',
-        fill: '#a16207',
+        fill: itemTextColor,
       })
       
       itemGroup.add(itemBg, itemText)
@@ -95,8 +104,8 @@ export function createQueuePrimitive(node: SceneNode): Konva.Group {
           points: [xOffset - itemSpacing + itemWidth + 5, yStart + 30, xOffset - 5, yStart + 30],
           pointerLength: 8,
           pointerWidth: 8,
-          fill: '#ca8a04',
-          stroke: '#ca8a04',
+          fill: itemBorderColor,
+          stroke: itemBorderColor,
           strokeWidth: 2,
         })
         group.add(arrow)
@@ -106,4 +115,3 @@ export function createQueuePrimitive(node: SceneNode): Konva.Group {
   
   return group
 }
-

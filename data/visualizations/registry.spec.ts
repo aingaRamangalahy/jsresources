@@ -12,11 +12,11 @@ describe('Visualization Registry', () => {
   describe('loadVisualization', () => {
     it('should load a visualization spec by id', async () => {
       // Arrange & Act
-      const spec = await loadVisualization('js-runtime')
+      const spec = await loadVisualization('event-loop')
       
       // Assert
       expect(spec).toBeDefined()
-      expect(spec.id).toBe('js-runtime')
+      expect(spec.id).toBe('event-loop')
       expect(spec.title).toBeTruthy()
       expect(spec.scene).toBeDefined()
       expect(spec.explanations).toBeDefined()
@@ -24,10 +24,10 @@ describe('Visualization Registry', () => {
 
     it('should cache loaded specs to avoid redundant loads', async () => {
       // Arrange
-      const spec1 = await loadVisualization('js-runtime')
+      const spec1 = await loadVisualization('event-loop')
       
       // Act
-      const spec2 = await loadVisualization('js-runtime')
+      const spec2 = await loadVisualization('event-loop')
       
       // Assert - same reference means cached
       expect(spec2).toBe(spec1)
@@ -42,7 +42,7 @@ describe('Visualization Registry', () => {
 
     it('should validate spec structure after loading', async () => {
       // Arrange & Act
-      const spec = await loadVisualization('js-runtime')
+      const spec = await loadVisualization('event-loop')
       
       // Assert - check required fields exist
       expect(spec.id).toBeTruthy()
@@ -76,14 +76,14 @@ describe('Visualization Registry', () => {
       })
     })
 
-    it('should include js-runtime in the list', () => {
+    it('should include event-loop in the list', () => {
       // Arrange & Act
       const list = listVisualizations()
       
       // Assert
-      const jsRuntime = list.find(item => item.id === 'js-runtime')
-      expect(jsRuntime).toBeDefined()
-      expect(jsRuntime?.title).toBe('JavaScript Runtime')
+      const eventLoop = list.find(item => item.id === 'event-loop')
+      expect(eventLoop).toBeDefined()
+      expect(eventLoop?.title).toBe('Event Loop')
     })
 
     it('should format titles correctly from ids', () => {
@@ -91,8 +91,8 @@ describe('Visualization Registry', () => {
       const list = listVisualizations()
       
       // Assert
-      const jsRuntime = list.find(item => item.id === 'js-runtime')
-      expect(jsRuntime?.title).toBe('JavaScript Runtime')
+      const eventLoop = list.find(item => item.id === 'event-loop')
+      expect(eventLoop?.title).toBe('Event Loop')
     })
   })
 
@@ -100,18 +100,18 @@ describe('Visualization Registry', () => {
     it('should not throw error when preloading valid id', () => {
       // Arrange & Act & Assert
       expect(() => {
-        preloadVisualization('js-runtime')
+        preloadVisualization('event-loop')
       }).not.toThrow()
     })
 
     it('should cache visualization for later synchronous access', async () => {
       // Arrange - preload and wait a bit for async operation
-      preloadVisualization('js-runtime')
+      preloadVisualization('event-loop')
       await new Promise(resolve => setTimeout(resolve, 100))
       
       // Act - second load should be fast (cached)
       const startTime = Date.now()
-      const spec = await loadVisualization('js-runtime')
+      const spec = await loadVisualization('event-loop')
       const loadTime = Date.now() - startTime
       
       // Assert
@@ -123,23 +123,23 @@ describe('Visualization Registry', () => {
   describe('clearCache', () => {
     it('should clear cached specs', async () => {
       // Arrange - load and cache a spec
-      const spec1 = await loadVisualization('js-runtime')
+      const spec1 = await loadVisualization('event-loop')
       
       // Verify it's cached (second load returns same reference)
-      const cachedSpec = await loadVisualization('js-runtime')
+      const cachedSpec = await loadVisualization('event-loop')
       expect(cachedSpec).toBe(spec1)
       
       // Act - clear cache
       clearCache()
       
       // Load again - will re-import the module
-      const spec2 = await loadVisualization('js-runtime')
+      const spec2 = await loadVisualization('event-loop')
       
       // Assert - spec was reloaded successfully
       // Note: Due to JS module caching, the object reference may be the same
       // What matters is that clearCache() doesn't throw and the spec loads correctly
       expect(spec2).toBeDefined()
-      expect(spec2.id).toBe('js-runtime')
+      expect(spec2.id).toBe('event-loop')
       expect(spec2.id).toBe(spec1.id)
     })
   })

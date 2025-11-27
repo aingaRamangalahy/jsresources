@@ -4,7 +4,7 @@ type SpecLoader = () => Promise<{ default: VisualizationSpec }>
 
 // Registry maps ID → lazy loader
 const registry = new Map<string, SpecLoader>([
-  ['js-runtime', () => import('./js-runtime/spec')],
+  ['event-loop', () => import('./event-loop/spec')],
   // More visualizations will be added here in future phases
 ])
 
@@ -101,8 +101,8 @@ export function clearCache(): void {
 
 /**
  * Format a visualization ID into a human-readable title
- * @param id - The visualization ID (e.g., 'js-runtime')
- * @returns Formatted title (e.g., 'JavaScript Runtime')
+ * @param id - The visualization ID (e.g., 'event-loop')
+ * @returns Formatted title (e.g., 'Event Loop')
  */
 function formatTitle(id: string): string {
   // Special case for common abbreviations

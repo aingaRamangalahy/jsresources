@@ -5,20 +5,29 @@ import type { SceneNode } from '../core/SceneNode'
  * HeapPrimitive - Memory heap visualization
  * Used for: Memory allocation, object storage, reference management
  * Displays items in a grid-like memory layout
+ * Dark mode themed
  */
 export function createHeapPrimitive(node: SceneNode): Konva.Group {
   const group = new Konva.Group({
     x: node.position.x,
     y: node.position.y,
-    draggable: node.draggable,
   })
+  
+  // Dark mode colors - Orange theme for heap
+  const bgColor = node.style.background || '#1f1714'
+  const borderColor = node.style.border || '#f97316'
+  const textColor = node.style.text || '#fb923c'
+  const descColor = '#a3a3a3'
+  const itemBgColor = '#2a1f19'
+  const itemBorderColor = '#f97316'
+  const itemTextColor = '#fdba74'
   
   // Container box
   const container = new Konva.Rect({
     width: node.size.width,
     height: node.size.height,
-    fill: node.style.background || '#ffffff',
-    stroke: node.style.border || '#ea580c',
+    fill: bgColor,
+    stroke: borderColor,
     strokeWidth: node.style.borderWidth || 2,
     cornerRadius: node.style.borderRadius || 8,
   })
@@ -34,7 +43,7 @@ export function createHeapPrimitive(node: SceneNode): Konva.Group {
       fontSize: 16,
       fontFamily: 'Inter, sans-serif',
       fontStyle: 'bold',
-      fill: node.style.text || '#c2410c',
+      fill: textColor,
     })
     group.add(title)
   }
@@ -47,7 +56,7 @@ export function createHeapPrimitive(node: SceneNode): Konva.Group {
       y: 45,
       fontSize: 12,
       fontFamily: 'Inter, sans-serif',
-      fill: '#64748b',
+      fill: descColor,
     })
     group.add(desc)
   }
@@ -73,8 +82,8 @@ export function createHeapPrimitive(node: SceneNode): Konva.Group {
       const itemBg = new Konva.Rect({
         width: itemWidth,
         height: itemHeight,
-        fill: '#fff7ed',
-        stroke: '#ea580c',
+        fill: itemBgColor,
+        stroke: itemBorderColor,
         strokeWidth: 2,
         cornerRadius: 4,
         dash: [5, 5],
@@ -88,7 +97,7 @@ export function createHeapPrimitive(node: SceneNode): Konva.Group {
         align: 'center',
         fontSize: 12,
         fontFamily: 'monospace',
-        fill: '#c2410c',
+        fill: itemTextColor,
         wrap: 'word',
       })
       
@@ -99,4 +108,3 @@ export function createHeapPrimitive(node: SceneNode): Konva.Group {
   
   return group
 }
-
