@@ -62,14 +62,22 @@ The site will be available at `http://localhost:3000`.
 ```
 jsresources/
 ├── content/
-│   └── resources/          # Resource markdown files
+│   └── resources/              # Resource markdown files
+│       ├── javascript/         # Core JavaScript resources
+│       ├── typescript/         # TypeScript resources
+│       ├── react/              # React & Next.js resources
+│       ├── vue/                # Vue.js resources
+│       ├── angular/            # Angular & RxJS resources
+│       ├── svelte/             # Svelte & SvelteKit resources
+│       ├── node/               # Node.js & Express resources
+│       └── other/              # Other topics (3D, databases, etc.)
 ├── pages/
-│   ├── index.vue          # Home page with grid and filters
+│   ├── index.vue              # Home page with grid and filters
 ├── composables/
 │   └── useResourceFilters.ts  # Filtering logic
 ├── types/
-│   └── resource.ts        # TypeScript types
-├── nuxt.config.ts         # Nuxt configuration
+│   └── resource.ts            # TypeScript types
+├── nuxt.config.ts             # Nuxt configuration
 └── package.json
 ```
 
@@ -112,9 +120,26 @@ git checkout -b fix-issue-description
 
 ## Adding Resources
 
+### Choosing the Right Subdirectory
+
+Place your resource file in the appropriate topic subdirectory:
+
+| Directory | Topics |
+|-----------|--------|
+| `javascript/` | Core JS, vanilla JS, algorithms, fundamentals |
+| `typescript/` | TypeScript courses, guides, patterns |
+| `react/` | React, Next.js, React testing |
+| `vue/` | Vue.js, Nuxt |
+| `angular/` | Angular, RxJS |
+| `svelte/` | Svelte, SvelteKit |
+| `node/` | Node.js, Express, backend JS |
+| `other/` | 3D/WebGL, databases, tools that don't fit above |
+
+**Tip**: Choose based on the *primary* topic. A React + TypeScript course goes in `react/`.
+
 ### Resource File Format
 
-Each resource is a markdown file in `/content/resources/` with YAML frontmatter:
+Each resource is a markdown file in `/content/resources/<topic>/` with YAML frontmatter:
 
 ```markdown
 ---
@@ -261,7 +286,7 @@ The standard contribution workflow is:
 
 1. **Commit your changes**:
    ```bash
-   git add content/resources/your-resource-name.md
+   git add content/resources/react/your-resource-name.md
    git commit -m "feat(resources): add [Resource Title]"
    ```
 
@@ -291,6 +316,7 @@ Brief description of your changes
 
 ## Resource Details (if applicable)
 - **Title**: Resource name
+- **Directory**: javascript/typescript/react/vue/angular/svelte/node/other
 - **Type**: video/course/article/documentation/book/tutorial/github/website
 - **Topics**: List topics
 - **Why valuable**: Brief explanation
@@ -326,8 +352,11 @@ Changes should reflect immediately in the browser.
 To fetch resources programmatically:
 
 ```typescript
-// Get all resources
+// Get all resources (searches all subdirectories)
 const resources = await queryContent('/resources').find()
+
+// Get resources from a specific topic directory
+const reactResources = await queryContent('/resources/react').find()
 
 // Filter by type
 const videos = await queryContent('/resources')
@@ -335,7 +364,7 @@ const videos = await queryContent('/resources')
   .find()
 
 // Get one resource
-const resource = await queryContent('/resources/vue-fundamentals').findOne()
+const resource = await queryContent('/resources/react/epic-react').findOne()
 ```
 
 ### State Management
