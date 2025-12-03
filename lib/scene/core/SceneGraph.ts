@@ -54,20 +54,19 @@ export class SceneGraph {
         layer.addNode(node)
       }
       
-      // Create edges in this layer (TEMPORARILY DISABLED for layout testing)
-      // TODO: Re-enable after block layout is finalized
-      /*
-      for (const edgeDef of layerDef.edges) {
-        const fromNode = this.nodes.get(edgeDef.from)
-        const toNode = this.nodes.get(edgeDef.to)
-        
-        if (fromNode && toNode) {
-          const edge = new SceneEdge(edgeDef, fromNode, toNode, layer)
-          this.edges.set(edgeDef.id, edge)
-          layer.addEdge(edge)
+      // Create edges in this layer
+      if (layerDef.edges) {
+        for (const edgeDef of layerDef.edges) {
+          const fromNode = this.nodes.get(edgeDef.from)
+          const toNode = this.nodes.get(edgeDef.to)
+          
+          if (fromNode && toNode) {
+            const edge = new SceneEdge(edgeDef, fromNode, toNode, layer)
+            this.edges.set(edgeDef.id, edge)
+            layer.addEdge(edge)
+          }
         }
       }
-      */
     }
   }
   

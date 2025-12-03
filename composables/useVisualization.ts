@@ -47,17 +47,26 @@ export function useVisualization(visualizationId: string) {
           title: nodeExplanation.title,
           description: nodeExplanation.content,
           details: nodeExplanation.details,
-          component: selectedNodeId.value as ComponentType
+          component: selectedNodeId.value as ComponentType,
+          codeExample: nodeExplanation.codeExample,
+          keyPoints: nodeExplanation.keyPoints,
+          commonMistakes: nodeExplanation.commonMistakes,
+          tryThis: nodeExplanation.tryThis
         }
       }
     }
     
     // Default to global explanation
+    const global = spec.value.explanations.global
     return {
       type: 'global',
-      title: spec.value.explanations.global.title,
-      description: spec.value.explanations.global.content,
-      details: spec.value.explanations.global.details
+      title: global.title,
+      description: global.content,
+      details: global.details,
+      codeExample: global.codeExample,
+      keyPoints: global.keyPoints,
+      commonMistakes: global.commonMistakes,
+      tryThis: global.tryThis
     }
   })
   

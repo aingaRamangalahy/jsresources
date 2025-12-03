@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import type { Resource, ResourceFilters } from '~/types/resource'
 import { BookOpen, FileText, Github, GraduationCap, Globe, NotebookPen, Play, Search, SlidersHorizontal, X } from 'lucide-vue-next'
-import { Button } from '~/components/ui/button'
-import SearchBar from '~/components/SearchBar.vue'
-import AppSidebar from '~/components/AppSidebar.vue'
-import ResourceCard from '~/components/ResourceCard.vue'
-import ResourcesFilters from '~/components/ResourcesFilters.vue'
-
 // Fetch all resources
 const { data: resources } = await useAsyncData('resources', () => 
   queryContent<Resource>('/resources').find()
@@ -105,9 +99,6 @@ definePageMeta({
       
       <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
         <div class="text-center">
-          <p class="text-xs font-semibold tracking-widest text-[var(--color-info)] uppercase mb-3">
-            Curated Collection
-          </p>
           <h1 class="text-3xl sm:text-4xl font-bold text-[var(--color-neutral-50)] mb-4">
             Learning Resources
           </h1>

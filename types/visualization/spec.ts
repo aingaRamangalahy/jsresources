@@ -156,12 +156,19 @@ export interface ExplanationMap {
     title: string
     content: string
     details: string[]
+    codeExample?: string           // Code example with comments
+    keyPoints?: string[]           // Key takeaways
+    commonMistakes?: string[]      // Common pitfalls to avoid
+    tryThis?: string               // Interactive suggestion
   }
-  nodes: Record<string, {       // Keyed by node ID
+  nodes: Record<string, {          // Keyed by node ID
     title: string
     content: string
     details: string[]
-    codeExample?: string
+    codeExample?: string           // Code example with comments
+    keyPoints?: string[]           // Key takeaways
+    commonMistakes?: string[]      // Common pitfalls to avoid
+    tryThis?: string               // Interactive suggestion
   }>
 }
 

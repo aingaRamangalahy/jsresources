@@ -28,5 +28,9 @@ export interface ExplanationState {
   description: string
   details?: string[]
   component?: ComponentType
+  codeExample?: string           // Code example with comments
+  keyPoints?: string[]           // Key takeaways
+  commonMistakes?: string[]      // Common pitfalls to avoid
+  tryThis?: string               // Interactive suggestion
 }
 
