@@ -24,21 +24,4 @@ test.describe('Homepage', () => {
   })
 })
 
-test.describe('Visualization Page', () => {
-  test.skip('should load visualization page (implement after Phase 3)', async ({ page }) => {
-    // This test is skipped until we implement the visualization canvas component
-    await page.goto('/visualize/event-loop')
-    
-    // Check that canvas exists
-    const canvas = page.locator('canvas')
-    await expect(canvas).toBeVisible()
-    
-    // Test node interaction
-    await canvas.click({ position: { x: 100, y: 100 } })
-    
-    // Check that explanation panel updates
-    const explanation = page.locator('.explanation-panel')
-    await expect(explanation).toBeVisible()
-  })
-})
 

@@ -14,6 +14,7 @@ export interface Resource {
   price: ResourcePrice
   url: string
   description?: string
+  collections?: string[]  // Collection IDs this resource belongs to
   _path?: string
 }
 

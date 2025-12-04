@@ -8,6 +8,7 @@ level: "intermediate"
 language: "en"
 price: "free"
 url: "https://eloquentjavascript.net/"
+collections: ["staff-picks", "zero-to-hero"]
 ---
 
 In-depth JavaScript book covering programming fundamentals, browser APIs, and Node.js. Free online version with interactive code examples and exercises. Considered one of the best JavaScript references.

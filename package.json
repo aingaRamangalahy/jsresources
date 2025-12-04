@@ -22,7 +22,6 @@
     "@vueuse/nuxt": "^13.9.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "konva": "^10.0.11",
     "lucide-vue-next": "^0.546.0",
     "nuxt": "^3.13.2",
     "reka-ui": "^2.5.1",

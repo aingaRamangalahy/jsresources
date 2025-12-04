@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Github, Plus, GitPullRequest, Eye, BookOpen, Menu, X, Home } from 'lucide-vue-next'
+import { Github, Plus, GitPullRequest, BookOpen, Menu, X, Home, FolderOpen } from 'lucide-vue-next'
 import { Button } from '~/components/ui/button'
 import {
   Dialog,
@@ -18,7 +18,7 @@ const isMobileMenuOpen = ref(false)
 // Navigation links
 const navLinks = [
   { to: '/', label: 'Home', icon: Home },
-  { to: '/visualize', label: 'Visualize', icon: Eye },
+  { to: '/collections', label: 'Collections', icon: FolderOpen },
   { to: '/resources', label: 'Resources', icon: BookOpen },
 ]
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Resource } from '~/types/resource'
+import type { CollectionWithCount } from '~/types/collection'
 import { 
   PlayCircle, 
   GraduationCap, 
@@ -8,15 +9,28 @@ import {
   ExternalLink,
   Github,
   Globe,
+  NotebookPen,
+  ArrowRight,
 } from 'lucide-vue-next'
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardAction } from '~/components/ui/card'
 import { Badge } from '~/components/ui/badge'
 
+type CardVariant = 'resource' | 'collection'
+
 interface Props {
-  resource: Resource
+  resource?: Resource
+  collection?: CollectionWithCount
+  variant?: CardVariant
 }
 
-defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  variant: 'resource'
+})
+
+// Determine the actual variant based on props
+const cardVariant = computed(() => {
+  if (props.collection) return 'collection'
+  return 'resource'
+})
 
 // Type icons (Lucide)
 const typeIcons: Record<string, any> = {
@@ -24,88 +38,228 @@ const typeIcons: Record<string, any> = {
   course: GraduationCap,
   article: FileText,
   book: BookOpen,
-  tutorial: BookOpen,
+  tutorial: NotebookPen,
   github: Github,
   website: Globe,
 }
 
-// Level color classes with opacity
+// Color schemes based on resource type
+const typeColorMap: Record<string, { text: string; iconBg: string }> = {
+  video: {
+    text: 'text-rose-400',
+    iconBg: 'bg-rose-500/10 group-hover:bg-rose-500/20',
+  },
+  course: {
+    text: 'text-violet-400',
+    iconBg: 'bg-violet-500/10 group-hover:bg-violet-500/20',
+  },
+  article: {
+    text: 'text-amber-400',
+    iconBg: 'bg-amber-500/10 group-hover:bg-amber-500/20',
+  },
+  book: {
+    text: 'text-emerald-400',
+    iconBg: 'bg-emerald-500/10 group-hover:bg-emerald-500/20',
+  },
+  tutorial: {
+    text: 'text-cyan-400',
+    iconBg: 'bg-cyan-500/10 group-hover:bg-cyan-500/20',
+  },
+  github: {
+    text: 'text-neutral-300',
+    iconBg: 'bg-neutral-500/10 group-hover:bg-neutral-500/20',
+  },
+  website: {
+    text: 'text-blue-400',
+    iconBg: 'bg-blue-500/10 group-hover:bg-blue-500/20',
+  },
+}
+
+// Collection color map
+const collectionColorMap: Record<string, { text: string; iconBg: string }> = {
+  amber: {
+    text: 'text-amber-400',
+    iconBg: 'bg-amber-500/10',
+  },
+  violet: {
+    text: 'text-violet-400',
+    iconBg: 'bg-violet-500/10',
+  },
+  emerald: {
+    text: 'text-emerald-400',
+    iconBg: 'bg-emerald-500/10',
+  },
+  blue: {
+    text: 'text-blue-400',
+    iconBg: 'bg-blue-500/10',
+  },
+  rose: {
+    text: 'text-rose-400',
+    iconBg: 'bg-rose-500/10',
+  },
+  cyan: {
+    text: 'text-cyan-400',
+    iconBg: 'bg-cyan-500/10',
+  },
+}
+
+// Get color classes based on variant
+const colorClasses = computed(() => {
+  if (cardVariant.value === 'collection' && props.collection) {
+    return collectionColorMap[props.collection.color] || collectionColorMap.blue
+  }
+  if (props.resource) {
+    return typeColorMap[props.resource.type] || typeColorMap.article
+  }
+  return typeColorMap.article
+})
+
+// Level badge classes
 const levelClasses: Record<string, string> = {
-  beginner: 'bg-[var(--color-success)]/10 text-[var(--color-success)] border-[var(--color-success)]/20',
-  intermediate: 'bg-[var(--color-info)]/10 text-[var(--color-info)] border-[var(--color-info)]/20',
-  advanced: 'bg-[var(--color-purple)]/10 text-[var(--color-purple)] border-[var(--color-purple)]/20'
+  beginner: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+  intermediate: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+  advanced: 'bg-violet-500/10 text-violet-400 border-violet-500/20'
 }
 
 // Helper functions
 const getTypeIcon = (type: string) => typeIcons[type] || FileText
-const getLevelClasses = (level: string) => levelClasses[level] || 'bg-[var(--color-neutral-800)] text-[var(--color-neutral-300)] border-[var(--color-neutral-700)]'
+const getLevelClasses = (level: string) => levelClasses[level] || 'bg-neutral-800 text-neutral-300 border-neutral-700'
+
+// Link properties
+const linkProps = computed(() => {
+  if (cardVariant.value === 'collection' && props.collection) {
+    return {
+      to: `/collections/${props.collection.id}`,
+      external: false
+    }
+  }
+  return {
+    href: props.resource?.url,
+    external: true
+  }
+})
 </script>
 
 <template>
+  <!-- Collection Card -->
+  <NuxtLink
+    v-if="cardVariant === 'collection' && collection"
+    :to="linkProps.to"
+    class="group block p-5 rounded-xl border border-[var(--color-neutral-800)] bg-[var(--color-neutral-900)] hover:border-[var(--color-neutral-700)] transition-all duration-200"
+  >
+    <!-- Icon -->
+    <div class="text-3xl mb-3">
+      {{ collection.icon }}
+    </div>
+    
+    <!-- Title -->
+    <h3 
+      :class="[
+        'text-lg font-semibold mb-2 group-hover:translate-x-0.5 transition-transform',
+        colorClasses.text
+      ]"
+    >
+      {{ collection.title }}
+    </h3>
+    
+    <!-- Description -->
+    <p class="text-sm text-[var(--color-neutral-400)] leading-relaxed mb-3 line-clamp-2">
+      {{ collection.description }}
+    </p>
+    
+    <!-- Resource count -->
+    <div class="flex items-center justify-between">
+      <span class="text-xs text-[var(--color-neutral-500)]">
+        {{ collection.resourceCount }} {{ collection.resourceCount === 1 ? 'resource' : 'resources' }}
+      </span>
+      
+      <ArrowRight
+        :class="[
+          'size-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all',
+          colorClasses.text
+        ]"
+      />
+    </div>
+  </NuxtLink>
+
+  <!-- Resource Card -->
   <a
+    v-else-if="resource"
     :href="resource.url"
     target="_blank"
     rel="noopener noreferrer"
-    class="group block"
+    class="group relative block p-5 rounded-xl border border-[var(--color-neutral-800)] bg-[var(--color-neutral-900)] hover:border-[var(--color-neutral-700)] transition-all duration-200"
   >
-    <Card class="border-[var(--color-neutral-800)] bg-[var(--color-neutral-900)] gap-3">
-      <CardHeader class="px-5">
-        <div class="flex items-start gap-4">
-          <!-- Icon with Gradient Background - Animated on Hover -->
-          <div class="shrink-0 p-3 rounded-[var(--radius-md)] bg-gradient-to-br from-[var(--color-neutral-800)] to-[var(--color-neutral-900)] group-hover:from-[var(--color-primary)]/10 group-hover:to-[var(--color-info)]/10 transition-all duration-300">
-            <component :is="getTypeIcon(resource.type)" class="size-6 text-[var(--color-neutral-400)] group-hover:text-[var(--color-primary)] transition-colors duration-300" />
+    <!-- Link icon in top right (shown on hover) -->
+    <ExternalLink 
+      class="absolute top-4 right-4 size-5 text-[var(--color-neutral-500)] opacity-0 group-hover:opacity-100 transition-opacity duration-200" 
+    />
+    
+    <div class="flex items-start gap-4">
+      <!-- Icon -->
+      <div 
+        :class="[
+          'shrink-0 p-3 rounded-lg transition-all duration-200',
+          colorClasses.iconBg
+        ]"
+      >
+        <component 
+          :is="getTypeIcon(resource.type)" 
+          :class="['size-6 transition-colors duration-200', colorClasses.text]"
+        />
+      </div>
+
+      <!-- Content -->
+      <div class="flex-1 min-w-0">
+        <!-- Title -->
+        <h3 
+          class="text-lg font-semibold line-clamp-1 group-hover:translate-x-0.5 transition-transform mb-1 text-[var(--color-neutral-50)]"
+        >
+          {{ resource.title }}
+        </h3>
+        
+        <!-- Author & Platform -->
+        <p class="text-sm text-[var(--color-neutral-500)] mb-2">
+          {{ resource.author }} • {{ resource.platform }}
+        </p>
+        
+        <!-- Description -->
+        <p class="text-sm text-[var(--color-neutral-400)] line-clamp-2 mb-3">
+          {{ resource.description }}
+        </p>
+
+        <!-- Bottom row: Topics + Badges -->
+        <div class="flex items-center justify-between gap-4">
+          <!-- Topics -->
+          <div class="flex flex-wrap gap-1.5 flex-1 min-w-0">
+            <Badge 
+              v-for="topic in resource.topics.slice(0, 4)" 
+              :key="topic"
+              variant="secondary"
+              class="text-xs capitalize px-2 py-0.5 bg-[var(--color-neutral-800)]/50 text-[var(--color-neutral-400)] border-[var(--color-neutral-700)]/50"
+            >
+              {{ topic }}
+            </Badge>
+            <Badge 
+              v-if="resource.topics.length > 4" 
+              variant="secondary" 
+              class="text-xs px-2 py-0.5 bg-[var(--color-neutral-800)]/50 text-[var(--color-neutral-400)] border-[var(--color-neutral-700)]/50"
+            >
+              +{{ resource.topics.length - 4 }}
+            </Badge>
           </div>
 
-          <!-- Title & Author -->
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center gap-2">
-              <CardTitle class="text-lg text-[var(--color-neutral-100)]  line-clamp-1">
-                {{ resource.title }}
-              </CardTitle>
-              <ExternalLink class="size-4 text-[var(--color-neutral-600)] opacity-0 group-hover:opacity-50 transition-opacity duration-200" />
-            </div>
-            <CardDescription class="text-[var(--color-neutral-500)] mt-1">
-              {{ resource.author }} • {{ resource.platform }}
-            </CardDescription>
-          </div>
-
-          <!-- Badges in CardAction slot -->
-          <CardAction class="flex items-center gap-2">
+          <!-- Badges -->
+          <div class="flex items-center gap-2 shrink-0">
             <Badge 
               variant="secondary" 
               :class="['text-xs capitalize border', getLevelClasses(resource.level)]"
             >
               {{ resource.level }}
             </Badge>
-            <Badge variant="secondary" class="text-xs uppercase">
-              {{ resource.price }}
-            </Badge>
-          </CardAction>
+          </div>
         </div>
-      </CardHeader>
-
-      <CardContent class="px-5 space-y-3">
-        <!-- Description -->
-        <p class="text-sm text-[var(--color-neutral-400)] line-clamp-2">
-          {{ resource.description }}
-        </p>
-
-        <!-- Topics -->
-        <div class="flex flex-wrap gap-1.5">
-          <Badge 
-            v-for="topic in resource.topics.slice(0, 6)" 
-            :key="topic"
-            variant="secondary"
-            class="text-xs capitalize px-2 py-0.5"
-          >
-            {{ topic }}
-          </Badge>
-          <Badge v-if="resource.topics.length > 6" variant="secondary" class="text-xs px-2 py-0.5">
-            +{{ resource.topics.length - 6 }}
-          </Badge>
-        </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   </a>
 </template>
-

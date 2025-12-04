@@ -26,9 +26,6 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
-      konva:
-        specifier: ^10.0.11
-        version: 10.0.11
       lucide-vue-next:
         specifier: ^0.546.0
         version: 0.546.0(vue@3.5.22(typescript@5.9.3))
@@ -2575,9 +2572,6 @@ packages:
 
   knitwork@1.2.0:
     resolution: {integrity: sha512-xYSH7AvuQ6nXkq42x0v5S8/Iry+cfulBz/DJQzhIyESdLD7425jXsPy4vn5cCXU+HhRN2kVw51Vd1K6/By4BQg==}
-
-  konva@10.0.11:
-    resolution: {integrity: sha512-h0O6YNrwdgfb76kzkiMIqkyufUxE6GPcNwJZhYalnZ5qnYBEuxSRk62fQwtJqygGP5hdZKzJs2ea1ivVP+zetw==}
 
   launch-editor@2.11.1:
     resolution: {integrity: sha512-SEET7oNfgSaB6Ym0jufAdCeo3meJVeCaaDyzRygy0xsp2BFKCprcfHljTq4QkzTLUxEKkFK6OK4811YM2oSrRg==}
@@ -6901,8 +6895,6 @@ snapshots:
   klona@2.0.6: {}
 
   knitwork@1.2.0: {}
-
-  konva@10.0.11: {}
 
   launch-editor@2.11.1:
     dependencies:
