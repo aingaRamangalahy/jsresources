@@ -59,13 +59,31 @@ Brief description of the resource.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions.
 
+## ✨ Features
+
+### 📚 Resource Library
+Browse and filter curated JavaScript/TypeScript learning resources including courses, videos, and articles.
+
+### 🎨 Interactive Visualizations
+Understand complex JavaScript concepts through interactive animations:
+
+- **Event Loop Visualizer** - See how JavaScript schedules tasks, microtasks, and callback queues
+  - 3 interactive examples (setTimeout, Promises, Mixed)
+  - Play/pause controls with adjustable speed
+  - Click components to learn more
+  - Real-time code highlighting synchronized with execution
+
+Visit `/visualize` to explore interactive explanations of JavaScript internals.
+
 ## 🛠️ Tech Stack
 
 - **[Nuxt 3](https://nuxt.com/)** - Vue.js framework
 - **[Nuxt Content](https://content.nuxt.com/)** - File-based CMS
-- **[NuxtUI](https://ui.nuxt.com/)** - UI component library
+- **[shadcn-vue](https://www.shadcn-vue.com/)** - UI component library
 - **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS
 - **[TypeScript](https://www.typescriptlang.org/)** - Type safety
+- **[GSAP](https://greensock.com/gsap/)** - Animation library
+- **[Shiki](https://shiki.style/)** - Syntax highlighting
 
 ## 🤝 Contributing
 
