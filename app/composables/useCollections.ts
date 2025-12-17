@@ -7,26 +7,20 @@ import type { Resource } from '~/types/resource'
  */
 export function useCollections() {
   /**
-   * Fetch all collections sorted by order
-   */
-  const fetchCollections = async (): Promise<Collection[]> => {
-    const collections = await queryContent<Collection>('collections')
-      .sort({ order: 1 })
-      .find()
-    
-    return collections
-  }
-
-  /**
    * Fetch featured collections (for homepage)
    */
   const fetchFeaturedCollections = async (): Promise<Collection[]> => {
-    const collections = await queryContent<Collection>('collections')
-      .where({ featured: true })
-      .sort({ order: 1 })
-      .find()
-    
-    return collections
+    try {
+      const collections = await queryContent<Collection>('collections')
+        .where({ featured: true })
+        .sort({ order: 1 })
+        .find()
+      
+      return collections || []
+    } catch (error) {
+      console.error('Error fetching featured collections:', error)
+      return []
+    }
   }
 
   /**
@@ -71,23 +65,36 @@ export function useCollections() {
    * Fetch collections with resource counts (for display)
    */
   const fetchCollectionsWithCounts = async (limit?: number): Promise<CollectionWithCount[]> => {
-    let collections = await fetchFeaturedCollections()
-    
-    if (limit) {
-      collections = collections.slice(0, limit)
+    try {
+      let collections = await fetchFeaturedCollections()
+      
+      if (limit) {
+        collections = collections.slice(0, limit)
+      }
+      
+      const collectionsWithCounts = await Promise.all(
+        collections.map(async (collection) => {
+          try {
+            const resourceCount = await countResourcesInCollection(collection.id)
+            return {
+              ...collection,
+              resourceCount,
+            }
+          } catch (error) {
+            console.error(`Error counting resources for collection ${collection.id}:`, error)
+            return {
+              ...collection,
+              resourceCount: 0,
+            }
+          }
+        })
+      )
+      
+      return collectionsWithCounts
+    } catch (error) {
+      console.error('Error fetching collections with counts:', error)
+      return []
     }
-    
-    const collectionsWithCounts = await Promise.all(
-      collections.map(async (collection) => {
-        const resourceCount = await countResourcesInCollection(collection.id)
-        return {
-          ...collection,
-          resourceCount,
-        }
-      })
-    )
-    
-    return collectionsWithCounts
   }
 
   /**
@@ -161,7 +168,6 @@ export function useCollections() {
   }
 
   return {
-    fetchCollections,
     fetchFeaturedCollections,
     fetchCollection,
     fetchResourcesByCollection,

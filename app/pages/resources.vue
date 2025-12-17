@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import type { Resource, ResourceFilters } from '~/types/resource'
 import { BookOpen, FileText, Github, GraduationCap, Globe, NotebookPen, Play, Search, SlidersHorizontal, X } from 'lucide-vue-next'
+import { Button } from '~/components/ui/button'
+
 // Fetch all resources
 const { data: resources } = await useAsyncData('resources', () => 
-  queryContent<Resource>('/resources').find()
+  queryContent<Resource>('/resources').find(),
+  {
+    default: () => [],
+    server: true,
+  }
 )
 
 // Use filter composable
