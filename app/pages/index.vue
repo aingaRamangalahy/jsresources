@@ -6,7 +6,7 @@ const COLLECTION_LIMIT = 6
 const { fetchCollectionsWithCounts } = useCollections()
 
 // Fetch collections with resource counts
-const { data: collections, pending: collectionsLoading } = await useAsyncData(
+const { data: collections, pending: collectionsLoading, refresh: refreshCollections } = await useAsyncData(
   'featured-collections',
   () => fetchCollectionsWithCounts(COLLECTION_LIMIT),
   {
@@ -14,6 +14,13 @@ const { data: collections, pending: collectionsLoading } = await useAsyncData(
     server: true,
   }
 )
+
+// Refresh on client if collections are empty after hydration (fallback for SSR issues)
+onMounted(async () => {
+  if (collections.value && collections.value.length === 0 && !collectionsLoading.value) {
+    await refreshCollections()
+  }
+})
 
 // SEO
 useHead({

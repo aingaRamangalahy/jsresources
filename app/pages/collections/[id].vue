@@ -10,13 +10,20 @@ const { fetchCollection, fetchResourcesByCollection, getCollectionColorClasses }
 // Fetch collection details
 const { data: collection, error: collectionError } = await useAsyncData(
   `collection-${collectionId.value}`,
-  () => fetchCollection(collectionId.value)
+  () => fetchCollection(collectionId.value),
+  {
+    server: true,
+  }
 )
 
 // Fetch resources in this collection
 const { data: resources, pending: resourcesLoading } = await useAsyncData(
   `collection-resources-${collectionId.value}`,
-  () => fetchResourcesByCollection(collectionId.value)
+  () => fetchResourcesByCollection(collectionId.value),
+  {
+    default: () => [],
+    server: true,
+  }
 )
 
 // Color classes for theming
