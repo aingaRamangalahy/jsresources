@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { FolderOpen, ArrowLeft } from 'lucide-vue-next'
+import { Button } from '~/components/ui/button'
 
 const { fetchCollectionsWithCounts } = useCollections()
 
 // Fetch all collections with counts
 const { data: collections, pending: loading } = await useAsyncData(
   'all-collections',
-  () => fetchCollectionsWithCounts()
+  () => fetchCollectionsWithCounts(),
+  {
+    default: () => [],
+    server: true,
+  }
 )
 
 // SEO
