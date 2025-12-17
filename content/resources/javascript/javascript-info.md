@@ -8,7 +8,7 @@ level: "beginner"
 language: "en"
 price: "free"
 url: "https://javascript.info/"
-collections: ["staff-picks", "zero-to-hero"]
+collections: ["foundations", "zero-to-hero"]
 ---
 
 A comprehensive online tutorial covering modern JavaScript from basics to advanced topics. Includes detailed explanations, interactive examples, and exercises. One of the best free resources for learning JavaScript.

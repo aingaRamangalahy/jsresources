@@ -70,8 +70,12 @@ export function useCollections() {
   /**
    * Fetch collections with resource counts (for display)
    */
-  const fetchCollectionsWithCounts = async (): Promise<CollectionWithCount[]> => {
-    const collections = await fetchFeaturedCollections()
+  const fetchCollectionsWithCounts = async (limit?: number): Promise<CollectionWithCount[]> => {
+    let collections = await fetchFeaturedCollections()
+    
+    if (limit) {
+      collections = collections.slice(0, limit)
+    }
     
     const collectionsWithCounts = await Promise.all(
       collections.map(async (collection) => {
@@ -126,6 +130,30 @@ export function useCollections() {
         border: 'border-cyan-500/30',
         text: 'text-cyan-400',
         hover: 'hover:border-cyan-500/50 hover:bg-cyan-500/15',
+      },
+      yellow: {
+        bg: 'bg-yellow-500/10',
+        border: 'border-yellow-500/30',
+        text: 'text-yellow-400',
+        hover: 'hover:border-yellow-500/50 hover:bg-yellow-500/15',
+      },
+      pink: {
+        bg: 'bg-pink-500/10',
+        border: 'border-pink-500/30',
+        text: 'text-pink-400',
+        hover: 'hover:border-pink-500/50 hover:bg-pink-500/15',
+      },
+      lime: {
+        bg: 'bg-lime-500/10',
+        border: 'border-lime-500/30',
+        text: 'text-lime-400',
+        hover: 'hover:border-lime-500/50 hover:bg-lime-500/15',
+      },
+      indigo: {
+        bg: 'bg-indigo-500/10',
+        border: 'border-indigo-500/30',
+        text: 'text-indigo-400',
+        hover: 'hover:border-indigo-500/50 hover:bg-indigo-500/15',
       },
     }
 

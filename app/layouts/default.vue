@@ -15,7 +15,7 @@
       <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div class="flex items-center gap-2">
-            <img src="/icon_2.svg" alt="JS Resources" class="size-6 opacity-50" />
+            <img src="/list_logo.svg" alt="JS Resources" class="h-6 w-auto opacity-50" />
             <span class="text-sm text-[var(--color-neutral-500)]">
               jsresources
             </span>

@@ -8,6 +8,7 @@ level: "beginner"
 language: "en"
 price: "free"
 url: "https://www.postgresqltutorial.com/"
+collections: ["foundations", "zero-to-hero"]
 ---
 
 Comprehensive PostgreSQL tutorial covering SQL basics, joins, subqueries, views, indexes, and advanced features. Includes practical examples and exercises.

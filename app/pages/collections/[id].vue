@@ -70,8 +70,7 @@ useHead({
             <div class="text-4xl">{{ collection.icon }}</div>
             <div>
               <h1 
-                class="text-3xl sm:text-4xl font-bold mb-2"
-                :class="colorClasses?.text"
+                class="text-3xl sm:text-4xl font-bold mb-2 text-[var(--color-neutral-50)]"
               >
                 {{ collection.title }}
               </h1>

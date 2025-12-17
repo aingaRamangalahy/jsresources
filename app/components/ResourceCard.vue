@@ -154,10 +154,7 @@ const linkProps = computed(() => {
     
     <!-- Title -->
     <h3 
-      :class="[
-        'text-lg font-semibold mb-2 group-hover:translate-x-0.5 transition-transform',
-        colorClasses.text
-      ]"
+      class="text-lg font-semibold mb-2 group-hover:translate-x-0.5 transition-transform text-[var(--color-neutral-50)]"
     >
       {{ collection.title }}
     </h3>
@@ -174,10 +171,7 @@ const linkProps = computed(() => {
       </span>
       
       <ArrowRight
-        :class="[
-          'size-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all',
-          colorClasses.text
-        ]"
+        class="size-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-[var(--color-neutral-50)]"
       />
     </div>
   </NuxtLink>

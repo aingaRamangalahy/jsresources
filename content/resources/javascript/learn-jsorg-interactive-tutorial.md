@@ -8,6 +8,7 @@ level: "beginner"
 language: "en"
 price: "free"
 url: "https://www.learn-js.org/"
+collections: ["foundations", "zero-to-hero"]
 ---
 
 Interactive JavaScript tutorials for beginners and experienced programmers. Hands-on exercises with instant feedback covering basics through advanced JavaScript concepts.

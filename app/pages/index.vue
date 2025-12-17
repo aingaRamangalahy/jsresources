@@ -2,12 +2,17 @@
 import { ArrowRight, BookOpen, Sparkles, FolderOpen } from 'lucide-vue-next'
 import { Button } from '~/components/ui/button'
 
+const COLLECTION_LIMIT = 6
 const { fetchCollectionsWithCounts } = useCollections()
 
 // Fetch collections with resource counts
 const { data: collections, pending: collectionsLoading } = await useAsyncData(
   'featured-collections',
-  () => fetchCollectionsWithCounts()
+  () => fetchCollectionsWithCounts(COLLECTION_LIMIT),
+  {
+    default: () => [],
+    server: true,
+  }
 )
 
 // SEO
@@ -60,42 +65,31 @@ useHead({
     <section class="py-12 sm:py-16">
       <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Section Header -->
-        <div class="flex items-center justify-between mb-8">
-          <div>
-            <div class="flex items-center gap-2 mb-2">
-              <FolderOpen class="size-5 text-[var(--color-primary)]" />
-              <h2 class="text-2xl sm:text-3xl font-bold text-[var(--color-neutral-50)]">
-                Collections
-              </h2>
-            </div>
-            <p class="text-[var(--color-neutral-400)]">
-              Curated resources organized by learning goals
-            </p>
+        <div class="mb-8">
+          <div class="flex items-center gap-2 mb-2">
+            <FolderOpen class="size-5 text-[var(--color-primary)]" />
+            <h2 class="text-2xl sm:text-3xl font-bold text-[var(--color-neutral-50)]">
+              Collections
+            </h2>
           </div>
-          
-          <NuxtLink 
-            to="/collections"
-            class="hidden sm:flex items-center gap-1 text-sm text-[var(--color-neutral-400)] hover:text-[var(--color-primary)] transition-colors"
-          >
-            View all
-            <ArrowRight class="size-4" />
-          </NuxtLink>
+          <p class="text-[var(--color-neutral-400)]">
+            Curated resources organized by learning goals
+          </p>
         </div>
         
         <!-- Collections Grid -->
         <CollectionsGrid 
-          :collections="collections || []" 
+          :collections="collections" 
           :loading="collectionsLoading" 
         />
         
-        <!-- Mobile "View All" Link -->
-        <div class="mt-6 text-center sm:hidden">
-          <NuxtLink 
-            to="/collections"
-            class="inline-flex items-center gap-1 text-sm text-[var(--color-neutral-400)] hover:text-[var(--color-primary)] transition-colors"
-          >
-            View all collections
-            <ArrowRight class="size-4" />
+        <!-- View All Collections Button -->
+        <div class="mt-8 text-center">
+          <NuxtLink to="/collections">
+            <Button variant="outline" size="lg" class="gap-2">
+              View All Collections
+              <ArrowRight class="size-4" />
+            </Button>
           </NuxtLink>
         </div>
       </div>

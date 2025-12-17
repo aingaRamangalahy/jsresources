@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import tailwindcss from '@tailwindcss/vite'
 import { defineNuxtConfig } from 'nuxt/config'
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-10-15',
@@ -28,7 +28,7 @@ export default defineNuxtConfig({
       * Directory that the component lives in.
       * @default "./components/ui"
       */
-     componentDir: './components/ui'
+     componentDir: '~/components/ui'
   },
 
   typescript: {
@@ -39,7 +39,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       link: [
-        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+        { rel: 'icon', type: 'image/svg+xml', href: '/list_logo.svg' },
       ]
     }
   }

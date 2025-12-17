@@ -8,6 +8,7 @@ level: "beginner"
 language: "en"
 price: "paid"
 url: "https://www.udemy.com/course/the-complete-guide-to-angular-2/"
+collections: ["foundations", "zero-to-hero"]
 ---
 
 Comprehensive Angular course covering components, directives, services, routing, forms, HTTP, observables with RxJS, and NgRx state management. Updated regularly for latest Angular versions.

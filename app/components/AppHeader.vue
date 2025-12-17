@@ -1,15 +1,5 @@
 <script setup lang="ts">
 import { Github, Plus, GitPullRequest, BookOpen, Menu, X, Home, FolderOpen } from 'lucide-vue-next'
-import { Button } from '~/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '~/components/ui/dialog'
 
 const route = useRoute()
 const isDialogOpen = ref(false)
@@ -45,13 +35,12 @@ watch(() => route.path, () => {
           to="/"
           class="flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] rounded-md"
         >
-          <div class="relative">
-            <div class="absolute -inset-1 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-info)] rounded-lg blur opacity-20 group-hover:opacity-30 transition-opacity"></div>
-            <img src="/icon_2.svg" alt="JS Resources" class="size-8 relative" />
-          </div>
-          <span class="text-xl font-bold text-[var(--color-neutral-50)] group-hover:text-[var(--color-primary)] transition-colors">
-            jsresources
-          </span>
+          <img 
+            src="/list_logo.svg" 
+            alt="JSResources" 
+            class="h-8 w-auto transition-opacity group-hover:opacity-80"
+          />
+          <span class="text-xl font-bold text-[var(--color-neutral-50)] group-hover:text-[var(--color-primary)] transition-colors">jsresources</span>
         </NuxtLink>
         
         <!-- Desktop Navigation -->
