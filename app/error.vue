@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { AlertTriangle, Home } from 'lucide-vue-next'
+import { Button } from '~/components/ui/button'
 
 const props = defineProps({
   error: Object
