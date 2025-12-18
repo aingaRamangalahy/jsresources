@@ -28,11 +28,10 @@ defineProps<Props>()
       v-else-if="collections.length > 0"
       class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
     >
-      <ResourceCard
+      <CollectionCard
         v-for="collection in collections"
         :key="collection.id"
         :collection="collection"
-        variant="collection"
       />
     </div>
     

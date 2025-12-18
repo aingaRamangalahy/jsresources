@@ -40,7 +40,10 @@ watch(() => route.path, () => {
             alt="JSResources" 
             class="h-8 w-auto transition-opacity group-hover:opacity-80"
           />
-          <span class="text-xl font-bold text-[var(--color-neutral-50)] group-hover:text-[var(--color-primary)] transition-colors">jsresources</span>
+          <span class="text-xl font-bold transition-colors group-hover:text-[var(--color-primary)]">
+            <span class="text-yellow-400">js</span>
+            <span class="text-[var(--color-neutral-50)] group-hover:text-[var(--color-primary)]"> resources</span>
+          </span>
         </NuxtLink>
         
         <!-- Desktop Navigation -->

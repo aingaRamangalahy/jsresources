@@ -8,12 +8,13 @@ import type { Resource } from '~/types/resource'
 export function useCollections() {
   /**
    * Fetch featured collections (for homepage)
+   * Note: Collections are sorted by resource count in fetchCollectionsWithCounts,
+   * not by the order field
    */
   const fetchFeaturedCollections = async (): Promise<Collection[]> => {
     try {
       const collections = await queryContent<Collection>('collections')
         .where({ featured: true })
-        .sort({ order: 1 })
         .find()
       
       return collections || []
@@ -63,15 +64,14 @@ export function useCollections() {
 
   /**
    * Fetch collections with resource counts (for display)
+   * Collections are sorted by resource count (most resources first)
    */
   const fetchCollectionsWithCounts = async (limit?: number): Promise<CollectionWithCount[]> => {
     try {
-      let collections = await fetchFeaturedCollections()
+      // Fetch all featured collections first
+      const collections = await fetchFeaturedCollections()
       
-      if (limit) {
-        collections = collections.slice(0, limit)
-      }
-      
+      // Count resources for all collections
       const collectionsWithCounts = await Promise.all(
         collections.map(async (collection) => {
           try {
@@ -90,7 +90,15 @@ export function useCollections() {
         })
       )
       
-      return collectionsWithCounts
+      // Sort by resource count (descending - most resources first)
+      const sortedCollections = collectionsWithCounts.sort((a, b) => b.resourceCount - a.resourceCount)
+      
+      // Apply limit after sorting
+      if (limit) {
+        return sortedCollections.slice(0, limit)
+      }
+      
+      return sortedCollections
     } catch (error) {
       console.error('Error fetching collections with counts:', error)
       return []

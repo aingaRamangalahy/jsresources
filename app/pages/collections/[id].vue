@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ArrowLeft, BookOpen } from 'lucide-vue-next'
+import { ArrowLeft, BookOpen, GitPullRequest, Plus } from 'lucide-vue-next'
 import { Button } from '~/components/ui/button'
 
 const route = useRoute()
@@ -114,14 +114,29 @@ useHead({
           <h2 class="text-xl font-semibold text-[var(--color-neutral-50)] mb-2">
             No resources yet
           </h2>
-          <p class="text-[var(--color-neutral-400)] mb-6">
-            This collection is being curated. Check back soon!
+          <p class="text-[var(--color-neutral-400)] mb-2 max-w-md mx-auto">
+            This collection is being curated. Help us grow it by contributing your favorite resources!
           </p>
-          <NuxtLink to="/resources">
-            <Button variant="outline">
-              Browse All Resources
+          <p class="text-sm text-[var(--color-neutral-500)] mb-8">
+            Found a great resource that fits this collection? We'd love to add it.
+          </p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Button
+              as="a"
+              href="https://github.com/aingaRamangalahy/jsresources/blob/master/CONTRIBUTING.md#adding-resources"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="gap-2"
+            >
+              <Plus class="size-4" />
+              Submit a resource
             </Button>
-          </NuxtLink>
+            <NuxtLink to="/resources">
+              <Button variant="outline">
+                Browse All Resources
+              </Button>
+            </NuxtLink>
+          </div>
         </div>
 
         <!-- Resources Grid -->

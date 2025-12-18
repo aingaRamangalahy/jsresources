@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Resource } from '~/types/resource'
-import type { CollectionWithCount } from '~/types/collection'
 import { 
   PlayCircle, 
   GraduationCap, 
@@ -10,27 +9,14 @@ import {
   Github,
   Globe,
   NotebookPen,
-  ArrowRight,
 } from 'lucide-vue-next'
 import { Badge } from '~/components/ui/badge'
 
-type CardVariant = 'resource' | 'collection'
-
 interface Props {
-  resource?: Resource
-  collection?: CollectionWithCount
-  variant?: CardVariant
+  resource: Resource
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  variant: 'resource'
-})
-
-// Determine the actual variant based on props
-const cardVariant = computed(() => {
-  if (props.collection) return 'collection'
-  return 'resource'
-})
+const props = defineProps<Props>()
 
 // Type icons (Lucide)
 const typeIcons: Record<string, any> = {
@@ -75,43 +61,9 @@ const typeColorMap: Record<string, { text: string; iconBg: string }> = {
   },
 }
 
-// Collection color map
-const collectionColorMap: Record<string, { text: string; iconBg: string }> = {
-  amber: {
-    text: 'text-amber-400',
-    iconBg: 'bg-amber-500/10',
-  },
-  violet: {
-    text: 'text-violet-400',
-    iconBg: 'bg-violet-500/10',
-  },
-  emerald: {
-    text: 'text-emerald-400',
-    iconBg: 'bg-emerald-500/10',
-  },
-  blue: {
-    text: 'text-blue-400',
-    iconBg: 'bg-blue-500/10',
-  },
-  rose: {
-    text: 'text-rose-400',
-    iconBg: 'bg-rose-500/10',
-  },
-  cyan: {
-    text: 'text-cyan-400',
-    iconBg: 'bg-cyan-500/10',
-  },
-}
-
-// Get color classes based on variant
+// Get color classes based on resource type
 const colorClasses = computed(() => {
-  if (cardVariant.value === 'collection' && props.collection) {
-    return collectionColorMap[props.collection.color] || collectionColorMap.blue
-  }
-  if (props.resource) {
-    return typeColorMap[props.resource.type] || typeColorMap.article
-  }
-  return typeColorMap.article
+  return typeColorMap[props.resource.type] || typeColorMap.article
 })
 
 // Level badge classes
@@ -124,61 +76,11 @@ const levelClasses: Record<string, string> = {
 // Helper functions
 const getTypeIcon = (type: string) => typeIcons[type] || FileText
 const getLevelClasses = (level: string) => levelClasses[level] || 'bg-neutral-800 text-neutral-300 border-neutral-700'
-
-// Link properties
-const linkProps = computed(() => {
-  if (cardVariant.value === 'collection' && props.collection) {
-    return {
-      to: `/collections/${props.collection.id}`,
-      external: false
-    }
-  }
-  return {
-    href: props.resource?.url,
-    external: true
-  }
-})
 </script>
 
 <template>
-  <!-- Collection Card -->
-  <NuxtLink
-    v-if="cardVariant === 'collection' && collection"
-    :to="linkProps.to"
-    class="group block p-5 rounded-xl border border-[var(--color-neutral-800)] bg-[var(--color-neutral-900)] hover:border-[var(--color-neutral-700)] transition-all duration-200"
-  >
-    <!-- Icon -->
-    <div class="text-3xl mb-3">
-      {{ collection.icon }}
-    </div>
-    
-    <!-- Title -->
-    <h3 
-      class="text-lg font-semibold mb-2 group-hover:translate-x-0.5 transition-transform text-[var(--color-neutral-50)]"
-    >
-      {{ collection.title }}
-    </h3>
-    
-    <!-- Description -->
-    <p class="text-sm text-[var(--color-neutral-400)] leading-relaxed mb-3 line-clamp-2">
-      {{ collection.description }}
-    </p>
-    
-    <!-- Resource count -->
-    <div class="flex items-center justify-between">
-      <span class="text-xs text-[var(--color-neutral-500)]">
-        {{ collection.resourceCount }} {{ collection.resourceCount === 1 ? 'resource' : 'resources' }}
-      </span>
-      
-      <ArrowRight
-        class="size-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-[var(--color-neutral-50)]"
-      />
-    </div>
-  </NuxtLink>
-
   <!-- Resource Card -->
   <a
-    v-else-if="resource"
     :href="resource.url"
     target="_blank"
     rel="noopener noreferrer"
