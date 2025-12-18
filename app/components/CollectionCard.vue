@@ -18,19 +18,10 @@ const colorClasses = computed(() => getCollectionColorClasses(props.collection.c
 <template>
   <NuxtLink
     :to="`/collections/${collection.id}`"
-    :class="[
-      'group block p-5 rounded-xl border bg-[var(--color-neutral-900)] transition-all duration-200',
-      colorClasses.border,
-      colorClasses.hover
-    ]"
+    class="group block p-5 rounded-xl border border-[var(--color-neutral-800)] transition-all duration-200"
   >
     <!-- Icon -->
-    <div 
-      :class="[
-        'inline-flex items-center justify-center w-12 h-12 rounded-lg mb-3 transition-all duration-200',
-        colorClasses.bg
-      ]"
-    >
+    <div class="inline-flex items-center justify-center w-12 h-12 rounded-lg mb-3 transition-all duration-200">
       <span class="text-2xl">{{ collection.icon }}</span>
     </div>
     
@@ -51,6 +42,9 @@ const colorClasses = computed(() => getCollectionColorClasses(props.collection.c
     
     <!-- Footer: Resource count + Arrow -->
     <div class="flex items-center justify-between">
+      <span class="text-xs text-[var(--color-neutral-500)]">
+        {{ collection.resourceCount }} {{ collection.resourceCount === 1 ? 'resource' : 'resources' }}
+      </span>
       <ArrowRight
         :class="[
           'size-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all',
