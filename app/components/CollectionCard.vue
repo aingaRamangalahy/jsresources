@@ -26,12 +26,7 @@ const colorClasses = computed(() => getCollectionColorClasses(props.collection.c
     </div>
     
     <!-- Title -->
-    <h3 
-      :class="[
-        'text-lg font-semibold mb-2 group-hover:translate-x-0.5 transition-transform',
-        colorClasses.text
-      ]"
-    >
+    <h3 class="text-lg font-semibold mb-2 group-hover:translate-x-0.5 transition-transform">
       {{ collection.title }}
     </h3>
     
@@ -41,16 +36,8 @@ const colorClasses = computed(() => getCollectionColorClasses(props.collection.c
     </p>
     
     <!-- Footer: Resource count + Arrow -->
-    <div class="flex items-center justify-between">
-      <span class="text-xs text-[var(--color-neutral-500)]">
-        {{ collection.resourceCount }} {{ collection.resourceCount === 1 ? 'resource' : 'resources' }}
-      </span>
-      <ArrowRight
-        :class="[
-          'size-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all',
-          colorClasses.text
-        ]"
-      />
+    <div class="flex items-center justify-end">
+      <ArrowRight class="size-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
     </div>
   </NuxtLink>
 </template>
