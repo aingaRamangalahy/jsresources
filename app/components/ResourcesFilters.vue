@@ -48,14 +48,14 @@ const activeFilterTags = computed<ActiveFilterTag[]>(() => {
   const tags: ActiveFilterTag[] = []
   const state = filters.value
 
-  state.type.forEach(typeValue => {
+  state.type.forEach((typeValue) => {
     const option = typeOptions.value.find(option => option.value === typeValue)
     if (option) {
       tags.push({ label: option.label, value: typeValue, type: 'type' })
     }
   })
 
-  state.level.forEach(levelValue => {
+  state.level.forEach((levelValue) => {
     const option = levelOptions.value.find(option => option.value === levelValue)
     if (option) {
       tags.push({ label: option.label, value: levelValue, type: 'level' })
@@ -63,13 +63,19 @@ const activeFilterTags = computed<ActiveFilterTag[]>(() => {
   })
 
   if (state.language) {
-    const label = state.language === 'en' ? '🇬🇧 English' : '🇫🇷 Français'
-    tags.push({ label, value: state.language, type: 'language' })
+    tags.push({
+      label: state.language === 'en' ? 'English' : 'Français',
+      value: state.language,
+      type: 'language',
+    })
   }
 
   if (state.price) {
-    const label = state.price === 'free' ? '💰 Free' : '💰 Paid'
-    tags.push({ label, value: state.price, type: 'price' })
+    tags.push({
+      label: state.price === 'free' ? 'Free' : 'Paid',
+      value: state.price,
+      type: 'price',
+    })
   }
 
   return tags
@@ -78,161 +84,152 @@ const activeFilterTags = computed<ActiveFilterTag[]>(() => {
 const hasActiveFilters = computed(() => activeFilterTags.value.length > 0)
 
 const removeFilter = (tag: ActiveFilterTag) => {
-  if (tag.type === 'type') {
-    emit('toggle-type', tag.value)
-  } else if (tag.type === 'level') {
-    emit('toggle-level', tag.value)
-  } else if (tag.type === 'language') {
-    updateFilter('language', null)
-  } else if (tag.type === 'price') {
-    updateFilter('price', null)
-  }
+  if (tag.type === 'type') emit('toggle-type', tag.value)
+  else if (tag.type === 'level') emit('toggle-level', tag.value)
+  else if (tag.type === 'language') updateFilter('language', null)
+  else if (tag.type === 'price') updateFilter('price', null)
 }
+
+const chipBase = 'px-3 py-2 text-sm font-semibold rounded-xl border-2 transition-all duration-200 cursor-pointer flex items-center gap-2'
+const chipActive = 'bg-[var(--color-primary)] text-[var(--color-on-primary)] border-[var(--color-primary-border)] shadow-[0_2px_0_0_var(--color-primary-shadow)]'
+const chipIdle = 'bg-white text-[var(--color-text-muted)] border-[var(--color-border)] hover:border-[var(--color-primary-border)] hover:text-[var(--color-text)]'
 </script>
 
 <template>
   <div class="space-y-4">
-    <div v-if="hasActiveFilters" class="mb-4">
-      <div class="flex flex-wrap items-center gap-2 p-3 bg-[var(--color-neutral-900)]/50 border border-[var(--color-neutral-800)] rounded-lg">
-        <span class="text-xs font-medium text-[var(--color-neutral-400)]">Active:</span>
-        <button
-          v-for="tag in activeFilterTags"
-          :key="`${tag.type}-${tag.value}`"
-          @click="removeFilter(tag)"
-          class="flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-md bg-[var(--color-primary)] text-[var(--color-neutral-950)] hover:bg-[var(--color-primary)]/80 transition-colors"
-        >
-          <span>{{ tag.label }}</span>
-          <X class="size-3" />
-        </button>
-        <button
-          @click="emit('reset-filters')"
-          class="ml-auto text-xs text-[var(--color-neutral-400)] hover:text-[var(--color-neutral-200)] transition-colors"
-        >
-          Clear all
-        </button>
-      </div>
+    <div
+      v-if="hasActiveFilters"
+      class="flex flex-wrap items-center gap-2 p-3 clay-surface !rounded-2xl !shadow-none"
+    >
+      <span class="text-xs font-bold uppercase tracking-wide" style="color: var(--color-text-subtle);">
+        Active
+      </span>
+      <button
+        v-for="tag in activeFilterTags"
+        :key="`${tag.type}-${tag.value}`"
+        type="button"
+        class="flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold rounded-full cursor-pointer transition-colors duration-200 border"
+        style="background-color: var(--color-primary); color: var(--color-on-primary); border-color: var(--color-primary-border);"
+        @click="removeFilter(tag)"
+      >
+        <span>{{ tag.label }}</span>
+        <X class="size-3" />
+      </button>
+      <button
+        type="button"
+        class="ml-auto text-xs font-bold cursor-pointer transition-colors duration-200 hover:text-[var(--color-accent)]"
+        style="color: var(--color-text-muted);"
+        @click="emit('reset-filters')"
+      >
+        Clear all
+      </button>
     </div>
 
-    <div class="bg-[var(--color-neutral-900)] border border-[var(--color-neutral-800)] rounded-lg p-5 space-y-5">
-    <!-- Type & Level Filters Row -->
-    <div class="flex flex-wrap gap-6">
-      <!-- Type Filter -->
-      <div class="flex-1 min-w-[200px] space-y-2">
-        <label class="text-sm font-semibold text-[var(--color-neutral-200)]">
-          Type
-        </label>
-        <div class="flex flex-wrap gap-2">
-          <button
-            v-for="type in typeOptions"
-            :key="type.value"
-            @click="emit('toggle-type', type.value)"
-            :class="[
-              'px-3 py-2 text-sm rounded-lg transition-all cursor-pointer flex items-center gap-2',
-              filters.type.includes(type.value as any)
-                ? 'bg-[var(--color-primary)] text-[var(--color-neutral-950)] shadow-lg shadow-[var(--color-primary)]/20'
-                : 'text-[var(--color-neutral-400)] hover:text-[var(--color-neutral-200)] hover:bg-[var(--color-neutral-800)] border border-[var(--color-neutral-700)]'
-            ]"
-          >
-            <component
-              :is="type.icon"
+    <div class="clay-surface p-5 space-y-5">
+      <div class="flex flex-wrap gap-6">
+        <div class="flex-1 min-w-[200px] space-y-2.5">
+          <label class="font-display text-sm font-semibold" style="color: var(--color-text);">
+            Type
+          </label>
+          <div class="flex flex-wrap gap-2">
+            <button
+              v-for="type in typeOptions"
+              :key="type.value"
+              type="button"
               :class="[
-                'size-4',
-                filters.type.includes(type.value as any)
-                  ? 'text-[var(--color-neutral-950)]'
-                  : 'text-[var(--color-primary)]'
+                chipBase,
+                filters.type.includes(type.value as never) ? chipActive : chipIdle,
               ]"
-              aria-hidden="true"
-            />
-            <span>{{ type.label }}</span>
-          </button>
+              @click="emit('toggle-type', type.value)"
+            >
+              <component
+                :is="type.icon"
+                class="size-4"
+                :style="filters.type.includes(type.value as never) ? 'color: var(--color-on-primary);' : 'color: var(--color-accent);'"
+                aria-hidden="true"
+              />
+              <span>{{ type.label }}</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex-1 min-w-[200px] space-y-2.5">
+          <label class="font-display text-sm font-semibold" style="color: var(--color-text);">
+            Level
+          </label>
+          <div class="flex flex-wrap gap-2">
+            <button
+              v-for="level in levelOptions"
+              :key="level.value"
+              type="button"
+              :class="[
+                chipBase,
+                'capitalize',
+                filters.level.includes(level.value as never) ? chipActive : chipIdle,
+              ]"
+              @click="emit('toggle-level', level.value)"
+            >
+              {{ level.label }}
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Level Filter -->
-      <div class="flex-1 min-w-[200px] space-y-2">
-        <label class="text-sm font-semibold text-[var(--color-neutral-200)]">
-          Level
-        </label>
-        <div class="flex flex-wrap gap-2">
-          <button
-            v-for="level in levelOptions"
-            :key="level.value"
-            @click="emit('toggle-level', level.value)"
-            :class="[
-              'px-3 py-2 text-sm rounded-lg transition-all capitalize cursor-pointer',
-              filters.level.includes(level.value as any)
-                ? 'bg-[var(--color-primary)] text-[var(--color-neutral-950)] shadow-lg shadow-[var(--color-primary)]/20'
-                : 'text-[var(--color-neutral-400)] hover:text-[var(--color-neutral-200)] hover:bg-[var(--color-neutral-800)] border border-[var(--color-neutral-700)]'
-            ]"
+      <div class="flex flex-wrap gap-6">
+        <div class="flex-1 min-w-[200px] space-y-2.5">
+          <label class="font-display text-sm font-semibold" style="color: var(--color-text);">
+            Language
+          </label>
+          <Select
+            :model-value="filters.language ?? 'all'"
+            @update:model-value="updateFilter('language', $event === 'all' ? null : $event as ResourceLanguage)"
           >
-            {{ level.label }}
-          </button>
+            <SelectTrigger class="h-11 w-full rounded-xl border-2 border-[var(--color-border)] bg-white font-semibold">
+              <SelectValue placeholder="All languages" />
+            </SelectTrigger>
+            <SelectContent class="z-50 rounded-xl border-2 border-[var(--color-border)]">
+              <SelectItem value="all">
+                All languages
+              </SelectItem>
+              <SelectItem value="en">
+                English
+              </SelectItem>
+              <SelectItem value="fr">
+                Français
+              </SelectItem>
+            </SelectContent>
+          </Select>
         </div>
-      </div>
-    </div>
 
-    <!-- Language & Price Row -->
-    <div class="flex flex-wrap gap-6">
-      <!-- Language Filter -->
-      <div class="flex-1 min-w-[200px] space-y-2">
-        <label class="text-sm font-semibold text-[var(--color-neutral-200)]">
-          Language
-        </label>
-        <Select :model-value="filters.language" @update:model-value="updateFilter('language', $event as ResourceLanguage | null)">
-          <SelectTrigger class="h-10 w-full bg-[var(--color-neutral-950)] border-[var(--color-neutral-800)] text-sm">
-            <SelectValue placeholder="All Languages" />
-          </SelectTrigger>
-          <SelectContent class="z-50 bg-[var(--color-neutral-900)] border-[var(--color-neutral-800)]">
-            <SelectItem :value="null">All Languages</SelectItem>
-            <SelectItem value="en">🇬🇧 English</SelectItem>
-            <SelectItem value="fr">🇫🇷 Français</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      <!-- Price Filter -->
-      <div class="flex-1 min-w-[200px] space-y-2">
-        <label class="text-sm font-semibold text-[var(--color-neutral-200)]">
-          Price
-        </label>
-        <div class="flex flex-wrap gap-2">
-          <button
-            @click="updateFilter('price', null)"
-            :class="[
-              'px-3 py-2 text-sm rounded-lg transition-all cursor-pointer',
-              !filters.price
-                ? 'bg-[var(--color-primary)] text-[var(--color-neutral-950)] shadow-lg shadow-[var(--color-primary)]/20'
-                : 'text-[var(--color-neutral-400)] hover:text-[var(--color-neutral-200)] hover:bg-[var(--color-neutral-800)] border border-[var(--color-neutral-700)]'
-            ]"
-          >
-            All
-          </button>
-          <button
-            @click="updateFilter('price', 'free')"
-            :class="[
-              'px-3 py-2 text-sm rounded-lg transition-all cursor-pointer',
-              filters.price === 'free'
-                ? 'bg-[var(--color-primary)] text-[var(--color-neutral-950)] shadow-lg shadow-[var(--color-primary)]/20'
-                : 'text-[var(--color-neutral-400)] hover:text-[var(--color-neutral-200)] hover:bg-[var(--color-neutral-800)] border border-[var(--color-neutral-700)]'
-            ]"
-          >
-            Free
-          </button>
-          <button
-            @click="updateFilter('price', 'paid')"
-            :class="[
-              'px-3 py-2 text-sm rounded-lg transition-all cursor-pointer',
-              filters.price === 'paid'
-                ? 'bg-[var(--color-primary)] text-[var(--color-neutral-950)] shadow-lg shadow-[var(--color-primary)]/20'
-                : 'text-[var(--color-neutral-400)] hover:text-[var(--color-neutral-200)] hover:bg-[var(--color-neutral-800)] border border-[var(--color-neutral-700)]'
-            ]"
-          >
-            Paid
-          </button>
+        <div class="flex-1 min-w-[200px] space-y-2.5">
+          <label class="font-display text-sm font-semibold" style="color: var(--color-text);">
+            Price
+          </label>
+          <div class="flex flex-wrap gap-2">
+            <button
+              type="button"
+              :class="[chipBase, !filters.price ? chipActive : chipIdle]"
+              @click="updateFilter('price', null)"
+            >
+              All
+            </button>
+            <button
+              type="button"
+              :class="[chipBase, filters.price === 'free' ? chipActive : chipIdle]"
+              @click="updateFilter('price', 'free')"
+            >
+              Free
+            </button>
+            <button
+              type="button"
+              :class="[chipBase, filters.price === 'paid' ? chipActive : chipIdle]"
+              @click="updateFilter('price', 'paid')"
+            >
+              Paid
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </template>
-

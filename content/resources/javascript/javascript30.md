@@ -9,6 +9,11 @@ language: "en"
 price: "free"
 url: "https://javascript30.com/"
 collections: ["weekend-project", "quick-wins", "code-challenges"]
+why: "Small browser projects help beginners connect JavaScript syntax to visible results."
+bestFor: "Practicing DOM manipulation after learning the basics."
+outcome: "Build 30 small projects that use real browser APIs."
+timeCommitment: "2-4 weeks"
+isGuidedPick: true
 ---
 
 Build 30 projects in 30 days using vanilla JavaScript with no frameworks. Learn DOM manipulation, events, and modern JavaScript features through practical projects. Completely free video course.

@@ -1,12 +1,12 @@
 ---
 id: zero-to-hero
 title: "Zero to Hero"
-description: "Complete beginner's journey from basics to job-ready"
+description: "Beginner-friendly resources that support the free JavaScript path"
 icon: "📈"
 color: "blue"
 featured: true
 order: 4
 ---
 
-A structured learning path for complete beginners. Start from the fundamentals and progress to advanced concepts at your own pace.
+Resources for complete beginners who want to move from JavaScript basics toward real projects. If you want a strict sequence, start with the Free JavaScript Foundations learning path, then use this collection for extra practice and alternatives.
 

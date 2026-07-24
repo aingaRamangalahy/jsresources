@@ -1,4 +1,13 @@
-export type ResourceType = 'video' | 'course' | 'article' | 'book' | 'tutorial' | 'github' | 'website'
+export type ResourceType =
+  | 'video'
+  | 'course'
+  | 'article'
+  | 'book'
+  | 'tutorial'
+  | 'github'
+  | 'website'
+  | 'documentation'
+
 export type ResourceLevel = 'beginner' | 'intermediate' | 'advanced'
 export type ResourceLanguage = 'fr' | 'en'
 export type ResourcePrice = 'free' | 'paid'
@@ -14,7 +23,12 @@ export interface Resource {
   price: ResourcePrice
   url: string
   description?: string
-  collections?: string[]  // Collection IDs this resource belongs to
+  why?: string
+  bestFor?: string
+  avoidIf?: string
+  outcome?: string
+  timeCommitment?: string
+  collections?: string[]
   _path?: string
 }
 
@@ -28,4 +42,3 @@ export interface ResourceFilters {
 }
 
 export type SortOption = 'title' | 'recent'
-
