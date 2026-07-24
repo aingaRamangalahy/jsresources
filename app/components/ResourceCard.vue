@@ -1,25 +1,27 @@
 <script setup lang="ts">
 import type { Resource } from '~/types/resource'
-import { 
-  PlayCircle, 
-  GraduationCap, 
-  FileText, 
+import {
+  PlayCircle,
+  GraduationCap,
+  FileText,
   BookOpen,
   ExternalLink,
   Github,
   Globe,
   NotebookPen,
+  Library,
 } from 'lucide-vue-next'
-import { Badge } from '~/components/ui/badge'
 
 interface Props {
   resource: Resource
+  view?: 'list' | 'card'
 }
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  view: 'list',
+})
 
-// Type icons (Lucide)
-const typeIcons: Record<string, any> = {
+const typeIcons: Record<string, object> = {
   video: PlayCircle,
   course: GraduationCap,
   article: FileText,
@@ -27,133 +29,160 @@ const typeIcons: Record<string, any> = {
   tutorial: NotebookPen,
   github: Github,
   website: Globe,
+  documentation: Library,
 }
 
-// Color schemes based on resource type
-const typeColorMap: Record<string, { text: string; iconBg: string }> = {
-  video: {
-    text: 'text-rose-400',
-    iconBg: 'bg-rose-500/10 group-hover:bg-rose-500/20',
-  },
-  course: {
-    text: 'text-violet-400',
-    iconBg: 'bg-violet-500/10 group-hover:bg-violet-500/20',
-  },
-  article: {
-    text: 'text-amber-400',
-    iconBg: 'bg-amber-500/10 group-hover:bg-amber-500/20',
-  },
-  book: {
-    text: 'text-emerald-400',
-    iconBg: 'bg-emerald-500/10 group-hover:bg-emerald-500/20',
-  },
-  tutorial: {
-    text: 'text-cyan-400',
-    iconBg: 'bg-cyan-500/10 group-hover:bg-cyan-500/20',
-  },
-  github: {
-    text: 'text-neutral-300',
-    iconBg: 'bg-neutral-500/10 group-hover:bg-neutral-500/20',
-  },
-  website: {
-    text: 'text-blue-400',
-    iconBg: 'bg-blue-500/10 group-hover:bg-blue-500/20',
-  },
+const typeStyles: Record<string, { color: string, bg: string }> = {
+  video: { color: '#9F1239', bg: 'rgba(159,18,57,0.08)' },
+  course: { color: '#8A7418', bg: 'rgba(212,180,58,0.16)' },
+  article: { color: '#0F766E', bg: 'rgba(15,118,110,0.1)' },
+  book: { color: '#3F7D4E', bg: 'rgba(63,125,78,0.1)' },
+  tutorial: { color: '#0D9488', bg: 'rgba(13,148,136,0.1)' },
+  github: { color: '#57534E', bg: 'rgba(87,83,78,0.08)' },
+  website: { color: '#A16207', bg: 'rgba(212,180,58,0.14)' },
+  documentation: { color: '#6B6B66', bg: 'rgba(107,107,102,0.1)' },
 }
 
-// Get color classes based on resource type
-const colorClasses = computed(() => {
-  return typeColorMap[props.resource.type] || typeColorMap.article
-})
-
-// Level badge classes
-const levelClasses: Record<string, string> = {
-  beginner: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
-  intermediate: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-  advanced: 'bg-violet-500/10 text-violet-400 border-violet-500/20'
+const levelStyles: Record<string, string> = {
+  beginner: 'background-color: rgba(63,125,78,0.1); color: #3F7D4E; border-color: rgba(63,125,78,0.2);',
+  intermediate: 'background-color: rgba(212,180,58,0.18); color: #8A7418; border-color: rgba(184,154,46,0.3);',
+  advanced: 'background-color: rgba(15,118,110,0.1); color: #0F766E; border-color: rgba(15,118,110,0.2);',
 }
 
-// Helper functions
+const priceStyles: Record<string, string> = {
+  free: 'background-color: rgba(63,125,78,0.1); color: #3F7D4E; border-color: rgba(63,125,78,0.2);',
+  paid: 'background-color: rgba(161,98,7,0.1); color: #A16207; border-color: rgba(161,98,7,0.2);',
+}
+
 const getTypeIcon = (type: string) => typeIcons[type] || FileText
-const getLevelClasses = (level: string) => levelClasses[level] || 'bg-neutral-800 text-neutral-300 border-neutral-700'
+const getTypeStyle = (type: string) => typeStyles[type] || typeStyles.article
+
+const isCard = computed(() => props.view === 'card')
 </script>
 
 <template>
-  <!-- Resource Card -->
   <a
     :href="resource.url"
     target="_blank"
     rel="noopener noreferrer"
-    class="group relative block p-5 rounded-xl border border-[var(--color-neutral-800)] bg-[var(--color-neutral-900)] hover:border-[var(--color-neutral-700)] transition-all duration-200"
+    class="group clay-surface clay-press relative cursor-pointer h-full"
+    :class="isCard ? 'flex flex-col p-5' : 'block p-5'"
   >
-    <!-- Link icon in top right (shown on hover) -->
-    <ExternalLink 
-      class="absolute top-4 right-4 size-5 text-[var(--color-neutral-500)] opacity-0 group-hover:opacity-100 transition-opacity duration-200" 
+    <ExternalLink
+      class="absolute top-4 right-4 size-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+      style="color: var(--color-accent);"
     />
-    
-    <div class="flex items-start gap-4">
-      <!-- Icon -->
-      <div 
-        :class="[
-          'shrink-0 p-3 rounded-lg transition-all duration-200',
-          colorClasses.iconBg
-        ]"
+
+    <!-- Card view -->
+    <template v-if="isCard">
+      <div
+        class="mb-4 inline-flex self-start p-3 rounded-2xl border-2"
+        :style="`background-color: ${getTypeStyle(resource.type).bg}; border-color: ${getTypeStyle(resource.type).color}33;`"
       >
-        <component 
-          :is="getTypeIcon(resource.type)" 
-          :class="['size-6 transition-colors duration-200', colorClasses.text]"
+        <component
+          :is="getTypeIcon(resource.type)"
+          class="size-6"
+          :style="`color: ${getTypeStyle(resource.type).color};`"
         />
       </div>
 
-      <!-- Content -->
-      <div class="flex-1 min-w-0">
-        <!-- Title -->
-        <h3 
-          class="text-lg font-semibold line-clamp-1 group-hover:translate-x-0.5 transition-transform mb-1 text-[var(--color-neutral-50)]"
+      <h3 class="font-display text-lg font-semibold mb-1 leading-snug pr-6" style="color: var(--color-text);">
+        {{ resource.title }}
+      </h3>
+
+      <p class="text-sm font-medium mb-3" style="color: var(--color-text-subtle);">
+        {{ resource.author }} · {{ resource.platform }}
+      </p>
+
+      <p
+        v-if="resource.description"
+        class="text-sm mb-4 line-clamp-3 flex-1"
+        style="color: var(--color-text-muted);"
+      >
+        {{ resource.description }}
+      </p>
+
+      <div class="mt-auto flex flex-wrap items-center gap-1.5">
+        <span
+          class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold capitalize border-2"
+          :style="priceStyles[resource.price]"
         >
+          {{ resource.price }}
+        </span>
+        <span
+          class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold capitalize border-2"
+          :style="levelStyles[resource.level]"
+        >
+          {{ resource.level }}
+        </span>
+        <span
+          v-for="topic in resource.topics.slice(0, 2)"
+          :key="topic"
+          class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold capitalize border-2"
+          style="background-color: var(--color-primary-soft); color: #8A7418; border-color: var(--color-border);"
+        >
+          {{ topic }}
+        </span>
+      </div>
+    </template>
+
+    <!-- List view -->
+    <div v-else class="flex items-start gap-4">
+      <div
+        class="shrink-0 p-3 rounded-2xl border-2"
+        :style="`background-color: ${getTypeStyle(resource.type).bg}; border-color: ${getTypeStyle(resource.type).color}33;`"
+      >
+        <component
+          :is="getTypeIcon(resource.type)"
+          class="size-5"
+          :style="`color: ${getTypeStyle(resource.type).color};`"
+        />
+      </div>
+
+      <div class="flex-1 min-w-0 pr-4">
+        <h3 class="font-display text-lg font-semibold mb-0.5 leading-snug" style="color: var(--color-text);">
           {{ resource.title }}
         </h3>
-        
-        <!-- Author & Platform -->
-        <p class="text-sm text-[var(--color-neutral-500)] mb-2">
-          {{ resource.author }} • {{ resource.platform }}
+
+        <p class="text-sm font-medium mb-3" style="color: var(--color-text-subtle);">
+          {{ resource.author }} · {{ resource.platform }}
         </p>
-        
-        <!-- Description -->
-        <p class="text-sm text-[var(--color-neutral-400)] line-clamp-2 mb-3">
+
+        <p
+          v-if="resource.description"
+          class="text-sm mb-3 line-clamp-2"
+          style="color: var(--color-text-muted);"
+        >
           {{ resource.description }}
         </p>
 
-        <!-- Bottom row: Topics + Badges -->
-        <div class="flex items-center justify-between gap-4">
-          <!-- Topics -->
-          <div class="flex flex-wrap gap-1.5 flex-1 min-w-0">
-            <Badge 
-              v-for="topic in resource.topics.slice(0, 4)" 
-              :key="topic"
-              variant="secondary"
-              class="text-xs capitalize px-2 py-0.5 bg-[var(--color-neutral-800)]/50 text-[var(--color-neutral-400)] border-[var(--color-neutral-700)]/50"
-            >
-              {{ topic }}
-            </Badge>
-            <Badge 
-              v-if="resource.topics.length > 4" 
-              variant="secondary" 
-              class="text-xs px-2 py-0.5 bg-[var(--color-neutral-800)]/50 text-[var(--color-neutral-400)] border-[var(--color-neutral-700)]/50"
-            >
-              +{{ resource.topics.length - 4 }}
-            </Badge>
-          </div>
-
-          <!-- Badges -->
-          <div class="flex items-center gap-2 shrink-0">
-            <Badge 
-              variant="secondary" 
-              :class="['text-xs capitalize border', getLevelClasses(resource.level)]"
-            >
-              {{ resource.level }}
-            </Badge>
-          </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <span
+            class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold capitalize border-2"
+            :style="priceStyles[resource.price]"
+          >
+            {{ resource.price }}
+          </span>
+          <span
+            class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold capitalize border-2"
+            :style="levelStyles[resource.level]"
+          >
+            {{ resource.level }}
+          </span>
+          <span
+            class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold capitalize border-2"
+            style="background-color: var(--color-surface-soft); color: var(--color-text-muted); border-color: var(--color-border);"
+          >
+            {{ resource.type }}
+          </span>
+          <span
+            v-for="topic in resource.topics.slice(0, 3)"
+            :key="topic"
+            class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold capitalize border-2"
+            style="background-color: var(--color-primary-soft); color: #8A7418; border-color: var(--color-border);"
+          >
+            {{ topic }}
+          </span>
         </div>
       </div>
     </div>

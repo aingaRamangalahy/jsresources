@@ -9,6 +9,11 @@ language: "en"
 price: "free"
 url: "https://dev.to/lydiahallie/series/3341"
 collections: ["foundations", "quick-wins", "interview-prep"]
+why: "Visual explanations make abstract runtime concepts easier to remember."
+bestFor: "Understanding execution context, hoisting, closures, promises, and the event loop."
+outcome: "Explain what JavaScript is doing behind the scenes."
+timeCommitment: "1 week"
+isGuidedPick: true
 ---
 
 A series of articles covering modern JavaScript from basics to advanced topics. Includes detailed visual explanations of concepts. One of the best free resources for learning JavaScript.

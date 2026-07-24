@@ -8,7 +8,7 @@ interface Props {
   modelValue: string
 }
 
-const props = defineProps<Props>()
+defineProps<Props>()
 
 const emit = defineEmits<{
   'update:modelValue': [value: string]
@@ -16,13 +16,10 @@ const emit = defineEmits<{
 
 const searchInput = ref<InstanceType<typeof Input> | null>(null)
 
-// Keyboard shortcuts
 onMounted(() => {
   const handleKeydown = (e: KeyboardEvent) => {
-    // Focus search when Ctrl+S is pressed
-    if (e.key === 's' && (e.ctrlKey || e.metaKey) && searchInput.value) {
+    if (e.key === 'k' && (e.ctrlKey || e.metaKey) && searchInput.value) {
       e.preventDefault()
-      console.log('focusing search input', searchInput.value)
       searchInput.value.focus()
     }
   }
@@ -35,23 +32,23 @@ onMounted(() => {
   <div class="relative">
     <Label for="search" class="sr-only">Search resources</Label>
     <div class="relative group">
-      <Search class="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-[var(--color-neutral-500)] group-focus-within:text-[var(--color-primary)] transition-colors" />
-      <Input 
+      <Search
+        class="absolute left-4 top-1/2 -translate-y-1/2 size-5 transition-colors duration-200"
+        style="color: var(--color-text-subtle);"
+        :class="'group-focus-within:text-[var(--color-accent)]'"
+      />
+      <Input
         id="search"
         ref="searchInput"
         :model-value="modelValue"
+        placeholder="Search by title, author, topic..."
+        class="pl-12 pr-24 h-14 text-base font-medium rounded-2xl border-2 border-[var(--color-border)] bg-white shadow-[var(--shadow-clay-sm)] focus-visible:border-[var(--color-accent)] focus-visible:ring-[var(--color-accent)]/15"
         @update:model-value="emit('update:modelValue', String($event))"
-        placeholder="Search for frameworks, tools, topics..." 
-        class="pl-12 pr-14 h-12 text-base bg-[var(--color-neutral-900)] border-[var(--color-neutral-800)] focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20"
       />
-      <div class="absolute right-4 top-1/2 -translate-y-1/2">
-        <div class="flex items-center gap-1">
-          <Kbd class="text-xs">Ctrl</Kbd>
-          <span class="text-[var(--color-neutral-500)]">+</span>
-          <Kbd class="text-xs">S</Kbd>
-        </div>
+      <div class="absolute right-4 top-1/2 -translate-y-1/2 hidden sm:flex items-center gap-1">
+        <Kbd class="text-xs rounded-md border">⌘</Kbd>
+        <Kbd class="text-xs rounded-md border">K</Kbd>
       </div>
     </div>
   </div>
 </template>
-

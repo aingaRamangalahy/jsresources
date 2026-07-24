@@ -12,6 +12,15 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
 
+  routeRules: {
+    '/resources': { redirect: '/' },
+    '/collections': { redirect: '/' },
+    '/collections/**': { redirect: '/' },
+    '/paths': { redirect: '/' },
+    '/paths/**': { redirect: '/' },
+    '/start': { redirect: '/' },
+  },
+
   components: [
     {
       path: '~/components',
@@ -20,28 +29,20 @@ export default defineNuxtConfig({
   ],
 
   shadcn: {
-     /**
-     * Prefix for all the imported component
-     */
-     prefix: '',
-     /**
-      * Directory that the component lives in.
-      * @default "./components/ui"
-      */
-     componentDir: '~/components/ui'
+    prefix: '',
+    componentDir: '~/components/ui',
   },
 
   typescript: {
     strict: true,
-    typeCheck: false // Disable during build, enable in IDE
+    typeCheck: false,
   },
 
   app: {
     head: {
       link: [
         { rel: 'icon', type: 'image/svg+xml', href: '/list_logo.svg' },
-      ]
-    }
-  }
-
+      ],
+    },
+  },
 })
